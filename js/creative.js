@@ -62,8 +62,8 @@
     });*/
 
     $("#bitBrowser-gallery").magnificPopup({
-        items:[{src: "img/portfolio/bitBrowser/bitBrowser-1.png"},
-            {src: "img/portfolio/bitBrowser/bitBrowser-2.png"}],
+        items:[{src: "./img/portfolio/bitBrowser/bitBrowser-1.png"},
+            {src: "./img/portfolio/bitBrowser/bitBrowser-2.png"}],
         gallery:{
             enabled:true
         },
@@ -71,10 +71,10 @@
     });
 
     $("#block-frame-gallery").magnificPopup({
-      items:[{src: "img/portfolio/block-frame/block-frame-1.png"},
-          {src: "img/portfolio/block-frame/block-frame-2.png"},
-          {src: "img/portfolio/block-frame/block-frame-3.png"},
-          {src: "img/portfolio/block-frame/block-frame-4.png"}],
+      items:[{src: "./img/portfolio/block-frame/block-frame-1.png"},
+          {src: "./img/portfolio/block-frame/block-frame-2.png"},
+          {src: "./img/portfolio/block-frame/block-frame-3.png"},
+          {src: "./img/portfolio/block-frame/block-frame-4.png"}],
         gallery:{
           enabled:true
         },
@@ -84,7 +84,7 @@
 
 
     $("#tv2android").magnificPopup({
-        items:[{src: "img/portfolio/tv2android/tv2android-1.png"}],
+        items:[{src: "./img/portfolio/tv2android/tv2android-1.png"}],
         gallery:{
             enabled:true
         },

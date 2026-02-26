@@ -1,0 +1,21 @@
+.pdt-5{padding-top:5px;}
+.pdt-10{padding-top:10px;}
+.pdt-15{padding-top:15px;}
+.pdt-20{padding-top:20px;}
+.pdt-30{padding-top:30px;}
+.pdt-40{padding-top:40px;}
+.pdt-50{padding-top:50px;}
+
+.pdb-5{padding-bottom: 5px;}
+.pdb-10{padding-bottom: 10px;}
+.pdb-15{padding-bottom: 15px;}
+.pdb-20{padding-bottom: 20px;}
+
+
+.navbar-header{height:70px;}
+.logo{padding:10px; height:100%;}
+
+.about h3{line-height: 1.8em;}
+
+.cursor{
+    cursor: pointer;}

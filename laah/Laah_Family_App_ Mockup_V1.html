@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>LAAH Family App — Soft Pastel</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:linear-gradient(145deg,#F0F8FF 0%,#F5F0FF 35%,#FFF0F8 70%,#F0FFF8 100%);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:32px 16px 60px;gap:22px;
+}
+::-webkit-scrollbar{width:0;}
+
+/* Page header */
+.ph{text-align:center;}
+.ph-eye{font-size:10px;color:#B0C4D8;letter-spacing:3px;text-transform:uppercase;margin-bottom:5px;}
+.ph-wrap{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px;}
+.ph-brand{font-size:42px;font-weight:800;letter-spacing:-2px;line-height:1;
+  background:linear-gradient(135deg,#60A5FA,#A78BFA,#F472B6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ph-badge{background:linear-gradient(135deg,#60A5FA,#818CF8);border-radius:12px;padding:5px 12px;box-shadow:0 4px 14px rgba(96,165,250,.3);}
+.ph-badge span{font-size:12px;color:#FFF;font-weight:800;letter-spacing:.5px;}
+.ph-sub{font-size:12px;color:#B0C4D8;}
+
+/* Context */
+.ctx{background:rgba(255,255,255,.88);border:1.5px solid rgba(96,165,250,.25);border-radius:22px;
+  padding:14px 20px;max-width:480px;backdrop-filter:blur(20px);
+  box-shadow:0 6px 22px rgba(96,165,250,.08);}
+.ctx-inner{display:flex;gap:14px;align-items:center;}
+.av{width:36px;height:36px;border-radius:18px;
+  background:linear-gradient(135deg,#34D399,#10B981);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;color:#FFF;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(52,211,153,.3);}
+.av-name{font-size:13px;font-weight:800;color:#1E3A5F;}
+.av-sub{font-size:10px;color:#7A9AB8;}
+.ctx-div{width:1px;background:rgba(96,165,250,.15);align-self:stretch;flex-shrink:0;}
+.ctx-desc{font-size:11px;color:#5A7A9A;line-height:1.65;}
+
+/* Bridge notice */
+.bridge{background:rgba(255,255,255,.8);border:1.5px solid rgba(96,165,250,.2);border-radius:18px;
+  padding:11px 18px;max-width:480px;display:flex;align-items:center;gap:10px;
+  font-size:11px;color:#4A6A8A;line-height:1.6;
+  box-shadow:0 4px 14px rgba(96,165,250,.06);}
+.bridge strong{color:#60A5FA;}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.75);border-radius:22px;padding:4px;
+  border:1.5px solid rgba(255,255,255,.95);backdrop-filter:blur(20px);
+  box-shadow:0 4px 16px rgba(96,165,250,.08);}
+.tab{background:transparent;border:none;border-radius:18px;padding:9px 18px;
+  color:#B0C4D8;font-weight:700;font-size:12px;cursor:pointer;transition:all .25s;}
+.tab.ao{background:linear-gradient(135deg,#60A5FA,#818CF8);color:#FFF;
+  box-shadow:0 4px 14px rgba(96,165,250,.35);}
+.tab.ac{background:linear-gradient(135deg,#A78BFA,#F472B6);color:#FFF;
+  box-shadow:0 4px 14px rgba(167,139,250,.35);}
+
+/* Pills */
+.pills{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.pill{background:rgba(255,255,255,.82);border:1.5px solid rgba(255,255,255,.95);
+  border-radius:16px;padding:7px 14px;color:#7A9AB8;font-weight:600;font-size:12px;
+  cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:2px;
+  box-shadow:0 2px 8px rgba(0,0,0,.03);}
+.pill .pd{font-size:9px;opacity:.55;font-weight:400;}
+.pill.so{background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(129,140,248,.12));border-color:rgba(96,165,250,.35);color:#2563EB;}
+.pill.sc{background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(244,114,182,.12));border-color:rgba(167,139,250,.35);color:#7C3AED;}
+
+/* Phone */
+.phone{width:360px;height:780px;border-radius:50px;flex-shrink:0;overflow:hidden;
+  position:relative;display:flex;flex-direction:column;
+  background:linear-gradient(170deg,#FEFEFF,#F5F8FF);
+  box-shadow:
+    0 0 0 1px rgba(96,165,250,.18),
+    0 0 0 10px #FFF,
+    0 0 0 12px rgba(96,165,250,.12),
+    0 40px 80px rgba(96,165,250,.15),
+    0 20px 40px rgba(0,0,0,.07);}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:110px;height:28px;background:#0A1020;border-radius:0 0 18px 18px;z-index:100;}
+.pi{flex:1;display:flex;flex-direction:column;padding-top:34px;overflow:hidden;}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes floatUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes shimmer{0%,100%{opacity:.4;}50%{opacity:1;}}
+@keyframes notifPop{0%{transform:scale(.9) translateY(-16px);opacity:0;}100%{transform:scale(1) translateY(0);opacity:1;}}
+
+/* Status bar */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:0 24px;height:26px;
+  font-size:11px;color:#B0C4D8;font-weight:600;flex-shrink:0;}
+
+/* Screen */
+.screen{flex:1;display:flex;flex-direction:column;overflow:hidden;animation:fadeIn .3s ease;}
+
+/* Cards */
+.card{background:rgba(255,255,255,.88);border:1.5px solid rgba(255,255,255,.98);
+  border-radius:22px;padding:14px;backdrop-filter:blur(20px);
+  box-shadow:0 4px 16px rgba(0,0,0,.04);}
+.card.blue{background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(129,140,248,.07));
+  border-color:rgba(96,165,250,.22);}
+.card.purple{background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(244,114,182,.07));
+  border-color:rgba(167,139,250,.22);}
+.card.green{background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(16,185,129,.07));
+  border-color:rgba(52,211,153,.22);}
+.card.peach{background:linear-gradient(135deg,rgba(251,146,60,.1),rgba(252,211,77,.07));
+  border-color:rgba(251,146,60,.22);}
+
+/* LAAH bubble */
+.ab{background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(167,139,250,.07));
+  border:1.5px solid rgba(96,165,250,.22);border-radius:6px 22px 22px 22px;padding:13px 16px;}
+.al{font-size:9px;color:#60A5FA;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.at{font-size:13px;color:#1E3A5F;line-height:1.7;}
+
+/* Header */
+.sh2{padding:10px 20px 14px;flex-shrink:0;}
+.se{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.st{font-size:22px;font-weight:800;color:#1E3A5F;letter-spacing:-.5px;}
+.ssub{font-size:11px;color:#7A9AB8;margin-top:1px;}
+
+/* Scroll */
+.scroll{flex:1;overflow-y:auto;padding:12px 16px 14px;display:flex;flex-direction:column;gap:11px;}
+
+/* Buttons */
+.btn{width:100%;min-height:58px;border:none;border-radius:20px;font-size:15px;font-weight:800;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:all .2s;letter-spacing:-.2px;}
+.btn.blue{background:linear-gradient(135deg,#60A5FA,#818CF8);color:#FFF;box-shadow:0 8px 24px rgba(96,165,250,.35);}
+.btn.blue:hover{box-shadow:0 12px 32px rgba(96,165,250,.5);transform:translateY(-1px);}
+.btn.purple{background:linear-gradient(135deg,#A78BFA,#F472B6);color:#FFF;box-shadow:0 8px 24px rgba(167,139,250,.35);}
+.btn.green{background:linear-gradient(135deg,#34D399,#10B981);color:#FFF;box-shadow:0 8px 24px rgba(52,211,153,.32);}
+.btn.ghost{background:rgba(255,255,255,.85);border:1.5px solid rgba(96,165,250,.2);color:#7A9AB8;box-shadow:0 4px 12px rgba(0,0,0,.04);}
+
+/* Vitals grid */
+.vg{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.vc{border-radius:18px;padding:13px 11px;border:1.5px solid rgba(255,255,255,.95);box-shadow:0 2px 8px rgba(0,0,0,.03);}
+
+/* Alert */
+.alert{background:linear-gradient(135deg,rgba(251,146,60,.1),rgba(252,211,77,.07));
+  border:1.5px solid rgba(251,146,60,.25);border-radius:20px;padding:12px 14px;
+  display:flex;gap:11px;align-items:center;cursor:pointer;transition:all .15s;
+  box-shadow:0 4px 14px rgba(251,146,60,.1);}
+.alert:hover{box-shadow:0 6px 20px rgba(251,146,60,.18);}
+
+/* Message card */
+.mc{background:rgba(255,255,255,.85);border-radius:18px;padding:14px;
+  border:2px solid rgba(255,255,255,.95);cursor:pointer;transition:all .2s;
+  box-shadow:0 3px 10px rgba(0,0,0,.04);}
+.mc:hover{border-color:rgba(96,165,250,.3);}
+.mc.sel{border-color:rgba(96,165,250,.4);background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(129,140,248,.05));
+  box-shadow:0 6px 20px rgba(96,165,250,.15);}
+
+/* Perms */
+.pw{max-width:480px;width:100%;background:rgba(255,255,255,.82);
+  border:1.5px solid rgba(96,165,250,.2);border-radius:22px;padding:16px 18px;
+  backdrop-filter:blur(20px);box-shadow:0 6px 22px rgba(96,165,250,.07);}
+.pl{font-size:10px;color:#60A5FA;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:13px;}
+.pr{display:flex;gap:11px;align-items:center;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid rgba(96,165,250,.08);}
+.pr:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.pi2{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-eye">Family App Mockup</div>
+  <div class="ph-wrap">
+    <div class="ph-brand">LAAH</div>
+    <div class="ph-badge"><span>Family</span></div>
+  </div>
+</div>
+
+<div class="ctx">
+  <div class="ctx-inner">
+    <div>
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">
+        <div class="av">S</div>
+        <div>
+          <div class="av-name">Sarah (딸) · 로그인 중</div>
+          <div class="av-sub">부모님: Robert (65세)</div>
+        </div>
+      </div>
+    </div>
+    <div class="ctx-div"></div>
+    <div class="ctx-desc">LAAH가 부모님 건강 데이터를<br>가족 친화적 언어로 번역해 전달</div>
+  </div>
+</div>
+
+<div class="bridge">
+  <span style="font-size:19px;">🤝</span>
+  <span><strong>LAAH Bridge</strong> — 시니어 앱의 건강 데이터가 자동 동기화됩니다. 부모님 동의 하에만 공유됩니다.</span>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="pills" id="pills"></div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="pi">
+    <div id="sc" style="flex:1;display:flex;flex-direction:column;overflow:hidden;"></div>
+  </div>
+</div>
+
+<div class="pw">
+  <div class="pl">가족 앱에서 볼 수 있는 정보</div>
+  <div id="perms"></div>
+</div>
+
+<div style="font-size:10px;color:#C0D4E8;text-align:center;">360 × 780 · Soft Pastel · Family App v3</div>
+
+<script>
+const F={
+  blue:"#60A5FA",  blueD:"#2563EB",  blueL:"rgba(96,165,250,.1)",
+  purple:"#A78BFA",purpleD:"#7C3AED",purpleL:"rgba(167,139,250,.1)",
+  green:"#34D399", greenD:"#059669",  greenL:"rgba(52,211,153,.1)",
+  pink:"#F472B6",  pinkD:"#DB2777",   pinkL:"rgba(244,114,182,.1)",
+  peach:"#FB923C", peachD:"#EA580C",  peachL:"rgba(251,146,60,.1)",
+  yellow:"#FCD34D",yellowD:"#D97706", yellowL:"rgba(252,211,77,.1)",
+  red:"#F87171",   redD:"#DC2626",
+  txt:"#1E3A5F", txtSub:"#5A7A9A", txtDim:"#9AAEC4",
+  border:"rgba(255,255,255,.95)",
+};
+
+const GROUPS=[
+  {id:"overview",lbl:"📊 Overview",color:F.blue,  tc:"ao",pc:"so",
+   screens:[
+    {id:"fam_home",   lbl:"홈",          e:"🏠",d:"부모님 현황"},
+    {id:"fam_alert",  lbl:"이상 알림",   e:"🚨",d:"혈당·BP 이상"},
+    {id:"fam_report", lbl:"주간 리포트", e:"📊",d:"7일 요약"},
+  ]},
+  {id:"connect",lbl:"💌 Connect",color:F.purple,tc:"ac",pc:"sc",
+   screens:[
+    {id:"fam_cheer",lbl:"응원 보내기",e:"💌",d:"격려 메시지"},
+  ]},
+];
+
+let cur="fam_home",curG="overview";
+
+/* ─── helpers ──────────────────────── */
+const sb=(t)=>`<div class="sb"><span style="color:${F.txtDim};">${t||"9:41"}</span><div style="display:flex;gap:4px;font-size:9px;color:${F.txtDim};"><span>●●●</span><span>WiFi</span><span>🔋</span></div></div>`;
+
+const bub=(text,s)=>`<div class="ab" style="${s||''}"><div class="al">LAAH</div><div class="at">${text}</div></div>`;
+
+const btn=(lbl,icon,cls,onclick,style)=>
+  `<button class="btn ${cls||'blue'}" onclick="${onclick||''}" style="${style||''}">${icon?`<span style="font-size:19px;">${icon}</span>`:''}<span>${lbl}</span></button>`;
+
+const ghostBtn=(lbl,icon,onclick)=>
+  `<button class="btn ghost" onclick="${onclick||''}">${icon?`<span style="font-size:17px;">${icon}</span>`:''}<span>${lbl}</span></button>`;
+
+/* ─── screens ──────────────────────── */
+const S={};
+
+S.fam_home=()=>{
+  const vitals=[
+    {icon:"❤️",val:"118/76",lbl:"Blood Pressure",c:F.green, bg:F.greenL,ok:true},
+    {icon:"🩸",val:"148 mg",lbl:"Blood Sugar",   c:F.peach, bg:F.peachL,ok:false},
+    {icon:"🦶",val:"3,200",  lbl:"Steps",         c:F.blue,  bg:F.blueL, ok:true},
+    {icon:"💊",val:"2/3",    lbl:"Meds Taken",    c:F.purple,bg:F.purpleL,ok:true},
+  ];
+  return `<div class="screen">
+  ${sb("20:10")}
+  <div class="sh2" style="background:linear-gradient(160deg,rgba(96,165,250,.1),rgba(129,140,248,.07));">
+    <div class="se" style="color:${F.blue};">LAAH Family</div>
+    <div class="st">Dad's Health Today 💙</div>
+    <div class="ssub">Logged in as Sarah · Daughter</div>
+  </div>
+  <div class="scroll">
+    <div class="card blue">
+      <div style="font-size:9px;color:${F.blue};font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;">💡 LAAH Suggests</div>
+      <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:13px;">
+        <div style="width:34px;height:34px;border-radius:11px;flex-shrink:0;
+          background:linear-gradient(135deg,${F.blue},${F.purple});
+          display:flex;align-items:center;justify-content:center;font-size:16px;
+          box-shadow:0 4px 12px rgba(96,165,250,.32);">🌿</div>
+        <div style="font-size:13px;color:${F.txt};line-height:1.65;flex:1;">
+          Dad walked <strong style="color:${F.greenD};">3,200 steps</strong> and took all his meds today! 🎉 He's been so consistent. Want to send him a quick cheer?
+        </div>
+      </div>
+      <div id="cheerArea">
+        <div style="display:flex;gap:7px;">
+          <button style="flex:2;min-height:46px;border:none;border-radius:14px;cursor:pointer;font-size:13px;font-weight:800;
+            background:linear-gradient(135deg,${F.blue},${F.purple});color:#FFF;
+            box-shadow:0 4px 14px rgba(96,165,250,.32);" onclick="sendQuickCheer()">👏 Send Cheer!</button>
+          <button style="flex:1;min-height:46px;border:1.5px solid rgba(96,165,250,.2);border-radius:14px;cursor:pointer;font-size:12px;font-weight:600;background:rgba(255,255,255,.9);color:${F.txtSub};">📞 Call</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:${F.txtSub};margin-bottom:11px;letter-spacing:-.2px;">Today's Vitals</div>
+      <div class="vg">
+        ${vitals.map(v=>`<div class="vc" style="background:${v.bg};">
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+            <span style="font-size:18px;">${v.icon}</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:${v.ok?F.green:F.peach};box-shadow:0 0 8px ${v.ok?F.green:F.peach};margin-top:3px;"></div>
+          </div>
+          <div style="font-size:16px;font-weight:800;color:${v.c};letter-spacing:-.3px;">${v.val}</div>
+          <div style="font-size:9px;color:${F.txtDim};margin-top:2px;">${v.lbl}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="alert" onclick="navigate('fam_alert')">
+      <span style="font-size:22px;">⚠️</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:${F.txt};">Blood sugar slightly high after lunch</div>
+        <div style="font-size:11px;color:${F.txtSub};">LAAH nudged Dad to walk · 2:35 PM</div>
+      </div>
+      <span style="font-size:16px;color:${F.txtDim};">›</span>
+    </div>
+    <div style="display:flex;gap:8px;">
+      ${ghostBtn("📊 Weekly Report","","navigate('fam_report')")}
+      ${btn("💌 Send Message","","purple","navigate('fam_cheer')")}
+    </div>
+  </div>
+</div>`;};
+
+S.fam_alert=()=>`
+<div class="screen">
+  ${sb("20:12")}
+  <div class="sh2" style="background:linear-gradient(160deg,rgba(251,146,60,.1),rgba(252,211,77,.07));">
+    <div class="se" style="color:${F.peach};">Health Alert</div>
+    <div class="st">Dad's Blood Sugar ⚠️</div>
+  </div>
+  <div class="scroll">
+    <div style="background:linear-gradient(135deg,rgba(251,146,60,.12),rgba(252,211,77,.08));
+      border:1.5px solid rgba(251,146,60,.28);border-radius:22px;padding:16px;
+      box-shadow:0 6px 20px rgba(251,146,60,.1);">
+      <div style="font-size:30px;font-weight:800;color:${F.peachD};letter-spacing:-.5px;margin-bottom:4px;">162 mg/dL</div>
+      <div style="font-size:12px;color:${F.txtSub};line-height:1.65;margin-bottom:13px;">Measured at 12:06 PM after lunch. Normal target for Dad is under 140 mg/dL.</div>
+      <div style="height:10px;background:rgba(255,255,255,.6);border-radius:6px;overflow:hidden;margin-bottom:6px;">
+        <div style="height:100%;width:68%;background:linear-gradient(90deg,${F.green},${F.yellow},${F.peach});border-radius:6px;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;">
+        <span style="font-size:9px;color:${F.greenD};font-weight:700;">Safe</span>
+        <span style="font-size:9px;color:${F.peach};font-weight:700;">Target: 140</span>
+        <span style="font-size:9px;color:${F.red};font-weight:700;">High: 200+</span>
+      </div>
+    </div>
+    <div class="card blue">
+      <div style="font-size:9px;color:${F.blue};font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;">LAAH already handled it</div>
+      <div style="font-size:13px;color:${F.txt};line-height:1.7;">I nudged Robert at 2:35 PM to take a short walk. He responded positively — blood sugar should normalize by dinner. I've suggested a low-carb dinner. 🌿</div>
+    </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:${F.txtSub};margin-bottom:11px;">Blood Sugar — Last 7 Days</div>
+      <div style="display:flex;gap:5px;align-items:flex-end;height:54px;">
+        ${[110,125,148,138,162,0,0].map((v,i)=>`<div style="flex:1;display:flex;flex-direction:column;gap:3px;align-items:center;">
+          ${v>0?`<div style="width:100%;height:${v/4}px;border-radius:6px 6px 0 0;
+            background:${v>140?`linear-gradient(180deg,${F.peach},${F.yellow})`:`linear-gradient(180deg,${F.green},${F.mint||'#6EE7B7'})`};opacity:.85;"></div>`
+          :`<div style="flex:1;"></div>`}
+          <div style="font-size:8px;color:${F.txtDim};font-weight:600;">${'SMTWTFS'[i]}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      ${btn("📞 Call Dad","","blue")}
+      ${btn("✓ OK, LAAH on it","","green","navigate('fam_home')")}
+    </div>
+  </div>
+</div>`;
+
+S.fam_report=()=>{
+  const items=[
+    {emoji:"🚶",lbl:"Steps",       val:"4.2km avg",     score:88,c:F.green, bg:F.greenL},
+    {emoji:"🥗",lbl:"Meals logged",val:"18/21",         score:86,c:F.blue,  bg:F.blueL},
+    {emoji:"💊",lbl:"Medications", val:"14-day streak", score:100,c:F.purple,bg:F.purpleL},
+    {emoji:"😴",lbl:"Sleep avg",   val:"7.1 hrs",       score:82,c:F.peach, bg:F.peachL},
+  ];
+  return `<div class="screen">
+  ${sb("20:15")}
+  <div class="sh2" style="background:linear-gradient(160deg,rgba(96,165,250,.1),rgba(129,140,248,.07));">
+    <div class="se" style="color:${F.blue};">Weekly Report</div>
+    <div class="st">March 3–9 · Dad</div>
+  </div>
+  <div class="scroll">
+    <div style="background:linear-gradient(135deg,${F.blue},${F.purple});border-radius:24px;padding:18px 20px;box-shadow:0 10px 30px rgba(96,165,250,.3);">
+      <div style="font-size:10px;color:rgba(255,255,255,.7);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">OVERALL WEEK SCORE</div>
+      <div style="font-size:52px;font-weight:200;color:#FFF;letter-spacing:-3px;line-height:1;">89</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.85);margin-top:6px;line-height:1.65;">
+        "Dad's strongest week this month — consistent walks, medication adherence 100%, and good sleep." — LAAH 🌿
+      </div>
+    </div>
+    ${items.map(it=>`<div class="card" style="display:flex;align-items:center;gap:13px;">
+      <div style="width:44px;height:44px;border-radius:14px;background:${it.bg};display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.95);">${it.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:${F.txt};">${it.lbl}</div>
+        <div style="font-size:11px;color:${F.txtSub};">${it.val}</div>
+      </div>
+      <div style="background:${it.bg};border:1.5px solid rgba(255,255,255,.9);border-radius:12px;padding:4px 11px;">
+        <span style="font-size:15px;font-weight:800;color:${it.c};">${it.score}</span>
+      </div>
+    </div>`).join('')}
+    <div class="card blue">
+      <div style="font-size:12px;font-weight:800;color:${F.blue};margin-bottom:7px;">📬 Auto-share settings</div>
+      <div style="font-size:12px;color:${F.txt};line-height:1.65;">This report is automatically sent to <strong>Sarah, Michael</strong> every Sunday at 8 PM.</div>
+    </div>
+    ${btn("📤 Share with Michael too","","blue","navigate('fam_home')")}
+    ${ghostBtn("🏠 Back to Home","","navigate('fam_home')")}
+  </div>
+</div>`;};
+
+S.fam_cheer=()=>{
+  const msgs=[
+    "You're doing amazing, Dad! 💛",
+    "So proud of you! Keep walking 🚶",
+    "Love you! LAAH says you're killing it 🎉",
+    "You're our hero! Stay healthy 💪",
+  ];
+  return `<div class="screen" id="cheerSc">
+  ${sb("20:18")}
+  <div class="sh2" style="background:linear-gradient(160deg,rgba(167,139,250,.1),rgba(244,114,182,.07));">
+    <div class="se" style="color:${F.purple};">Send Cheer</div>
+    <div class="st">Message to Dad 💌</div>
+  </div>
+  <div class="scroll" id="cheerContent">
+    <div class="card blue">
+      <div style="font-size:9px;color:${F.blue};font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;">LAAH Suggests</div>
+      <div style="font-size:13px;color:${F.txt};line-height:1.7;">Robert walked 3,200 steps today and stayed consistent all week. A message now would mean a lot to him! 🌟</div>
+    </div>
+    <div style="font-size:10px;color:${F.txtDim};font-weight:800;letter-spacing:1.5px;text-transform:uppercase;">Quick Messages</div>
+    ${msgs.map((m,i)=>`<div class="mc" id="mc${i}" onclick="selMsg(${i})">
+      <div style="font-size:14px;color:${F.txt};line-height:1.5;">${m}</div>
+    </div>`).join('')}
+    ${btn("Send to Dad! 💌","","purple","sendCheer()")}
+    ${ghostBtn("✏️ Write custom message","")}
+  </div>
+</div>`;};
+
+/* ─── screen JS ─────────────────────── */
+let selMsgIdx=0;
+function selMsg(i){
+  selMsgIdx=i;
+  document.querySelectorAll('[id^=mc]').forEach((el,idx)=>{
+    el.className='mc'+(idx===i?' sel':'');
+  });
+}
+function sendCheer(){
+  document.getElementById('cheerContent').innerHTML=`
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;animation:slideUp .4s ease;padding:20px;">
+      <div style="font-size:60px;animation:floatUp 2.5s ease-in-out infinite;">💌</div>
+      <div style="font-size:24px;font-weight:800;color:${F.txt};text-align:center;line-height:1.3;">Message sent to Dad!</div>
+      <div class="card blue"><div style="font-size:13px;color:${F.txt};line-height:1.7;">LAAH will show Dad your message the next time he opens the app. 💛</div></div>
+      ${btn("🏠 Back to Home","","blue","navigate('fam_home')")}
+    </div>`;
+}
+function sendQuickCheer(){
+  const area=document.getElementById('cheerArea');
+  if(area){
+    area.innerHTML=`<div style="background:${F.greenL};border:1.5px solid rgba(52,211,153,.25);border-radius:14px;padding:12px;text-align:center;animation:slideUp .3s ease;">
+      <div style="font-size:14px;color:${F.greenD};font-weight:800;">✓ Cheer sent to Dad! 💛</div>
+    </div>`;
+  }
+}
+
+/* ─── navigation ────────────────────── */
+function navigate(id){
+  cur=id;
+  const g=GROUPS.find(g=>g.screens.some(s=>s.id===id));
+  if(g)curG=g.id;
+  render();
+}
+function switchG(id){
+  curG=id;
+  navigate(GROUPS.find(g=>g.id===id).screens[0].id);
+}
+
+function render(){
+  const grp=GROUPS.find(g=>g.id===curG);
+
+  document.getElementById('tabs').innerHTML=GROUPS.map(g=>
+    `<button class="tab ${curG===g.id?g.tc:''}" onclick="switchG('${g.id}')">${g.lbl}</button>`).join('');
+
+  document.getElementById('pills').innerHTML=grp.screens.map(s=>
+    `<button class="pill ${cur===s.id?grp.pc:''}" onclick="navigate('${s.id}')">
+      <span>${s.e} ${s.lbl}</span><span class="pd">${s.d}</span>
+    </button>`).join('');
+
+  document.getElementById('sc').innerHTML=S[cur]?S[cur]():'';
+
+  const perms=[
+    {icon:"✅",lbl:"일일 건강 요약",   desc:"바이탈·복약·걸음 수",                c:F.green, bg:F.greenL},
+    {icon:"⚠️",lbl:"이상 징후 알림",   desc:"혈당·혈압 범위 이탈 시 알림",         c:F.peach, bg:F.peachL},
+    {icon:"📊",lbl:"주간 리포트",       desc:"LAAH 작성, 매주 일요일 자동 전송",    c:F.blue,  bg:F.blueL},
+    {icon:"💌",lbl:"응원 메시지",       desc:"가족 → 부모님, LAAH가 전달",         c:F.purple,bg:F.purpleL},
+    {icon:"🚫",lbl:"볼 수 없는 것",    desc:"대화 내용·음성 기록·세부 증상 비공개",c:F.red,   bg:"rgba(248,113,113,.08)"},
+  ];
+  document.getElementById('perms').innerHTML=perms.map(p=>`
+    <div class="pr">
+      <div class="pi2" style="background:${p.bg};">${p.icon}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:${p.c};">${p.lbl}</div>
+        <div style="font-size:11px;color:${F.txtDim};">${p.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+render();
+</script>
+</body>
+</html>

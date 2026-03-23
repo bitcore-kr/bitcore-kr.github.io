@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Laah — Voice-First UX v3</title>
+<style>
+/* ═══════════════════════════════════════════════════
+   CSS VARIABLES
+═══════════════════════════════════════════════════ */
+:root{
+  --teal:       #5BBFB3;
+  --teal-label: #8ECFC9;
+  --teal-soft:  rgba(142,207,201,.08);
+  --teal-border:rgba(142,207,201,.18);
+  --amber:      #E8A87C;
+  --green:      #64C483;
+  --red:        #E07070;
+  --purple:     #B8A4E8;
+
+  --bg-page:    #0C0B12;
+  --bg-phone:   #12111A;
+  --bg-card:    rgba(255,255,255,.045);
+  --bg-card-alt:rgba(255,255,255,.065);
+  --bg-bubble:  rgba(142,207,201,.08);
+  --bg-notch:   #08070F;
+  --bg-bnav:    rgba(14,13,22,.97);
+  --bg-keypad:  rgba(255,255,255,.035);
+
+  --border-card:  rgba(255,255,255,.08);
+  --border-subtle:rgba(255,255,255,.055);
+  --border-laah:  rgba(142,207,201,.18);
+  --border-bnav:  rgba(255,255,255,.055);
+
+  --txt-primary:  #F0EBE3;
+  --txt-secondary:rgba(240,235,227,.52);
+  --txt-dim:      rgba(255,255,255,.28);
+  --txt-dimmer:   rgba(255,255,255,.16);
+  --txt-label:    rgba(142,207,201,.6);
+  --txt-status:   rgba(255,255,255,.3);
+
+  --shell-mid:    #1A1820;
+  --shell-outer:  rgba(142,207,201,.06);
+  --shell-shadow: rgba(0,0,0,.75);
+
+  --page-txt:     #C8BEE0;
+  --page-dim:     #6B5F8A;
+  --tab-bg:       rgba(255,255,255,.04);
+  --tab-border:   rgba(255,255,255,.07);
+  --tab-txt:      #7A6EA0;
+  --philo-bg:     rgba(142,207,201,.07);
+
+  --toggle-off:   rgba(255,255,255,.1);
+  --chevron:      rgba(255,255,255,.2);
+  --setting-hi:   rgba(142,207,201,.08);
+  --setting-hi-b: rgba(142,207,201,.2);
+
+  --notif-bg:     rgba(255,255,255,.07);
+  --notif-border: rgba(255,255,255,.1);
+  --notif-div:    rgba(255,255,255,.07);
+  --lock-time:    rgba(255,255,255,.9);
+  --lock-date:    rgba(255,255,255,.38);
+  --lock-hint:    rgba(255,255,255,.18);
+
+  --badge-good:rgba(100,196,131,.15);
+  --badge-warn:rgba(232,168,124,.15);
+  --badge-bad: rgba(224,112,112,.15);
+
+  --orb1: rgba(91,191,179,.35);
+  --orb2: rgba(91,191,179,.1);
+  --cam-hint: rgba(0,0,0,.55);
+  --cam-hint-b: rgba(142,207,201,.25);
+  --scan: #8ECFC9;
+
+  --gr-home:    linear-gradient(180deg,#12111A 0%,#0E1018 100%);
+  --gr-listen:  linear-gradient(180deg,#0D1218 0%,#0A1016 100%);
+  --gr-respond: linear-gradient(180deg,#0D1218 0%,#0A1016 100%);
+  --gr-health:  linear-gradient(180deg,#12101A 0%,#0E0D16 100%);
+  --gr-meds:    linear-gradient(180deg,#12101A 0%,#0E0D16 100%);
+  --gr-meal:    linear-gradient(180deg,#0E1A10 0%,#0C160E 100%);
+  --gr-set:     linear-gradient(180deg,#12101A 0%,#0E0D16 100%);
+  --gr-ob:      linear-gradient(180deg,#0D1118 0%,#10111E 100%);
+  --gr-lock:    linear-gradient(170deg,#0A0E14 0%,#0D1118 100%);
+  --gr-cam:     linear-gradient(180deg,#0D1A0E,#0E1A10);
+
+  --mode-bg:    rgba(255,255,255,.05);
+  --mode-border:rgba(255,255,255,.1);
+  --mode-txt:   rgba(255,255,255,.45);
+}
+
+/* ── LIGHT ── */
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg-page:#E8E4F0;--bg-phone:#FAFAF8;--bg-card:rgba(0,0,0,.03);
+    --bg-card-alt:rgba(0,0,0,.05);--bg-bubble:rgba(91,191,179,.07);
+    --bg-notch:#1A1828;--bg-bnav:rgba(250,250,248,.96);--bg-keypad:rgba(0,0,0,.03);
+    --border-card:rgba(0,0,0,.07);--border-subtle:rgba(0,0,0,.05);
+    --border-laah:rgba(91,191,179,.22);--border-bnav:rgba(0,0,0,.07);
+    --txt-primary:#1A1228;--txt-secondary:rgba(26,18,40,.5);
+    --txt-dim:rgba(26,18,40,.38);--txt-dimmer:rgba(26,18,40,.22);
+    --txt-label:rgba(45,140,134,.75);--txt-status:rgba(26,18,40,.3);
+    --shell-mid:#E0DCF0;--shell-outer:rgba(91,191,179,.1);--shell-shadow:rgba(0,0,0,.15);
+    --page-txt:#3E2E60;--page-dim:#8070A8;--tab-bg:rgba(0,0,0,.03);
+    --tab-border:rgba(0,0,0,.07);--tab-txt:#8878B0;--philo-bg:rgba(91,191,179,.06);
+    --toggle-off:rgba(0,0,0,.1);--chevron:rgba(0,0,0,.2);
+    --setting-hi:rgba(91,191,179,.07);--setting-hi-b:rgba(91,191,179,.22);
+    --notif-bg:rgba(255,255,255,.65);--notif-border:rgba(0,0,0,.08);
+    --notif-div:rgba(0,0,0,.06);--lock-time:rgba(26,18,40,.9);
+    --lock-date:rgba(26,18,40,.42);--lock-hint:rgba(26,18,40,.2);
+    --badge-good:rgba(100,196,131,.12);--badge-warn:rgba(232,168,124,.12);--badge-bad:rgba(224,112,112,.12);
+    --orb1:rgba(91,191,179,.25);--orb2:rgba(91,191,179,.07);
+    --cam-hint:rgba(255,255,255,.72);--cam-hint-b:rgba(58,155,147,.25);--scan:#3A9B93;
+    --gr-home:linear-gradient(180deg,#F4F0FC 0%,#EEE8F8 100%);
+    --gr-listen:linear-gradient(180deg,#EBF7F5 0%,#E4F2F0 100%);
+    --gr-respond:linear-gradient(180deg,#EBF7F5 0%,#E4F2F0 100%);
+    --gr-health:linear-gradient(180deg,#F5F0FC 0%,#EEE8F8 100%);
+    --gr-meds:linear-gradient(180deg,#F5F0FC 0%,#EEE8F8 100%);
+    --gr-meal:linear-gradient(180deg,#EEF8F0 0%,#E8F5EA 100%);
+    --gr-set:linear-gradient(180deg,#F5F0FC 0%,#EEE8F8 100%);
+    --gr-ob:linear-gradient(180deg,#EEE8F8 0%,#E8E2F4 100%);
+    --gr-lock:linear-gradient(170deg,#C8C4DC 0%,#D0CCE4 100%);
+    --gr-cam:linear-gradient(180deg,#1A2A1C,#1E2E20);
+    --mode-bg:rgba(0,0,0,.05);--mode-border:rgba(0,0,0,.1);--mode-txt:rgba(26,18,40,.42);
+  }
+}
+[data-theme="light"]{
+  --bg-page:#E8E4F0;--bg-phone:#FAFAF8;--bg-card:rgba(0,0,0,.03);
+  --bg-card-alt:rgba(0,0,0,.05);--bg-bubble:rgba(91,191,179,.07);
+  --bg-notch:#1A1828;--bg-bnav:rgba(250,250,248,.96);--bg-keypad:rgba(0,0,0,.03);
+  --border-card:rgba(0,0,0,.07);--border-subtle:rgba(0,0,0,.05);
+  --border-laah:rgba(91,191,179,.22);--border-bnav:rgba(0,0,0,.07);
+  --txt-primary:#1A1228;--txt-secondary:rgba(26,18,40,.5);
+  --txt-dim:rgba(26,18,40,.38);--txt-dimmer:rgba(26,18,40,.22);
+  --txt-label:rgba(45,140,134,.75);--txt-status:rgba(26,18,40,.3);
+  --shell-mid:#E0DCF0;--shell-outer:rgba(91,191,179,.1);--shell-shadow:rgba(0,0,0,.15);
+  --page-txt:#3E2E60;--page-dim:#8070A8;--tab-bg:rgba(0,0,0,.03);
+  --tab-border:rgba(0,0,0,.07);--tab-txt:#8878B0;--philo-bg:rgba(91,191,179,.06);
+  --toggle-off:rgba(0,0,0,.1);--chevron:rgba(0,0,0,.2);
+  --setting-hi:rgba(91,191,179,.07);--setting-hi-b:rgba(91,191,179,.22);
+  --notif-bg:rgba(255,255,255,.65);--notif-border:rgba(0,0,0,.08);
+  --notif-div:rgba(0,0,0,.06);--lock-time:rgba(26,18,40,.9);
+  --lock-date:rgba(26,18,40,.42);--lock-hint:rgba(26,18,40,.2);
+  --badge-good:rgba(100,196,131,.12);--badge-warn:rgba(232,168,124,.12);--badge-bad:rgba(224,112,112,.12);
+  --orb1:rgba(91,191,179,.25);--orb2:rgba(91,191,179,.07);
+  --cam-hint:rgba(255,255,255,.72);--cam-hint-b:rgba(58,155,147,.25);--scan:#3A9B93;
+  --gr-home:linear-gradient(180deg,#F4F0FC 0%,#EEE8F8 100%);
+  --gr-listen:linear-gradient(180deg,#EBF7F5 0%,#E4F2F0 100%);
+  --gr-respond:linear-gradient(180deg,#EBF7F5 0%,#E4F2F0 100%);
+  --gr-health:linear-gradient(180deg,#F5F0FC 0%,#EEE8F8 100%);
+  --gr-meds:linear-gradient(180deg,#F5F0FC 0%,#EEE8F8 100%);
+  --gr-meal:linear-gradient(180deg,#EEF8F0 0%,#E8F5EA 100%);
+  --gr-set:linear-gradient(180deg,#F5F0FC 0%,#EEE8F8 100%);
+  --gr-ob:linear-gradient(180deg,#EEE8F8 0%,#E8E2F4 100%);
+  --gr-lock:linear-gradient(170deg,#C8C4DC 0%,#D0CCE4 100%);
+  --gr-cam:linear-gradient(180deg,#1A2A1C,#1E2E20);
+  --mode-bg:rgba(0,0,0,.05);--mode-border:rgba(0,0,0,.1);--mode-txt:rgba(26,18,40,.42);
+}
+[data-theme="dark"]{
+  --bg-page:#0C0B12;--bg-phone:#12111A;--bg-card:rgba(255,255,255,.045);
+  --bg-card-alt:rgba(255,255,255,.065);--bg-bubble:rgba(142,207,201,.08);
+  --bg-notch:#08070F;--bg-bnav:rgba(14,13,22,.97);--bg-keypad:rgba(255,255,255,.035);
+  --border-card:rgba(255,255,255,.08);--border-subtle:rgba(255,255,255,.055);
+  --border-laah:rgba(142,207,201,.18);--border-bnav:rgba(255,255,255,.055);
+  --txt-primary:#F0EBE3;--txt-secondary:rgba(240,235,227,.52);
+  --txt-dim:rgba(255,255,255,.28);--txt-dimmer:rgba(255,255,255,.16);
+  --txt-label:rgba(142,207,201,.6);--txt-status:rgba(255,255,255,.3);
+  --shell-mid:#1A1820;--shell-outer:rgba(142,207,201,.06);--shell-shadow:rgba(0,0,0,.75);
+  --page-txt:#C8BEE0;--page-dim:#6B5F8A;--tab-bg:rgba(255,255,255,.04);
+  --tab-border:rgba(255,255,255,.07);--tab-txt:#7A6EA0;--philo-bg:rgba(142,207,201,.07);
+  --toggle-off:rgba(255,255,255,.1);--chevron:rgba(255,255,255,.2);
+  --setting-hi:rgba(142,207,201,.08);--setting-hi-b:rgba(142,207,201,.2);
+  --notif-bg:rgba(255,255,255,.07);--notif-border:rgba(255,255,255,.1);
+  --notif-div:rgba(255,255,255,.07);--lock-time:rgba(255,255,255,.9);
+  --lock-date:rgba(255,255,255,.38);--lock-hint:rgba(255,255,255,.18);
+  --badge-good:rgba(100,196,131,.15);--badge-warn:rgba(232,168,124,.15);--badge-bad:rgba(224,112,112,.15);
+  --orb1:rgba(91,191,179,.35);--orb2:rgba(91,191,179,.1);
+  --cam-hint:rgba(0,0,0,.55);--cam-hint-b:rgba(142,207,201,.25);--scan:#8ECFC9;
+  --gr-home:linear-gradient(180deg,#12111A 0%,#0E1018 100%);
+  --gr-listen:linear-gradient(180deg,#0D1218 0%,#0A1016 100%);
+  --gr-respond:linear-gradient(180deg,#0D1218 0%,#0A1016 100%);
+  --gr-health:linear-gradient(180deg,#12101A 0%,#0E0D16 100%);
+  --gr-meds:linear-gradient(180deg,#12101A 0%,#0E0D16 100%);
+  --gr-meal:linear-gradient(180deg,#0E1A10 0%,#0C160E 100%);
+  --gr-set:linear-gradient(180deg,#12101A 0%,#0E0D16 100%);
+  --gr-ob:linear-gradient(180deg,#0D1118 0%,#10111E 100%);
+  --gr-lock:linear-gradient(170deg,#0A0E14 0%,#0D1118 100%);
+  --gr-cam:linear-gradient(180deg,#0D1A0E,#0E1A10);
+  --mode-bg:rgba(255,255,255,.05);--mode-border:rgba(255,255,255,.1);--mode-txt:rgba(255,255,255,.45);
+}
+
+/* ═══════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;}
+::-webkit-scrollbar{width:0;}
+body{
+  background:var(--bg-page);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:40px 16px 72px;gap:28px;transition:background .3s;
+}
+
+/* ── Page chrome ── */
+.page-head{text-align:center;}
+.page-eye{font-size:11px;color:var(--page-dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;}
+.page-brand{font-size:46px;font-weight:900;letter-spacing:-2px;
+  background:linear-gradient(135deg,#8ECFC9,#B8A4E8,#E8A87C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.page-sub{font-size:13px;color:var(--page-dim);margin-top:4px;}
+
+.mode-toggle{display:flex;gap:6px;margin-top:12px;justify-content:center;}
+.mode-btn{background:var(--mode-bg);border:1.5px solid var(--mode-border);color:var(--mode-txt);
+  border-radius:20px;padding:7px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.mode-btn.active{background:linear-gradient(135deg,#5BBFB3,#3A9B93);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(91,191,179,.28);}
+
+.philo{background:var(--philo-bg);border:1.5px solid var(--teal-border);border-radius:18px;padding:16px 20px;max-width:500px;width:100%;}
+.philo-title{font-size:11px;color:var(--teal-label);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.philo-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;}
+.philo-dot{width:6px;height:6px;border-radius:50%;background:var(--teal-label);margin-top:7px;flex-shrink:0;}
+.philo-txt{font-size:13px;color:var(--page-txt);line-height:1.5;}
+
+.tabs-wrap{max-width:500px;width:100%;display:flex;flex-direction:column;gap:8px;}
+.tab-group-label{font-size:10px;color:var(--page-dim);font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0 4px;}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;}
+.tab{background:var(--tab-bg);border:1.5px solid var(--tab-border);border-radius:14px;
+  padding:8px 14px;color:var(--tab-txt);font-weight:700;font-size:12px;
+  cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.tab-e{font-size:16px;}.tab-lbl{font-size:12px;}
+.tab.t-ob.active{background:rgba(184,164,232,.13);border-color:rgba(184,164,232,.4);color:#B8A4E8;}
+.tab.t-core.active{background:rgba(142,207,201,.14);border-color:rgba(142,207,201,.38);color:#5BBFB3;}
+.tab.t-health.active{background:rgba(224,112,112,.11);border-color:rgba(224,112,112,.28);color:#E07070;}
+.tab.t-meal.active{background:rgba(100,196,131,.11);border-color:rgba(100,196,131,.28);color:#64C483;}
+.tab.t-settings.active{background:rgba(184,164,232,.11);border-color:rgba(184,164,232,.28);color:#B8A4E8;}
+
+/* ── Phone shell ── */
+.phone{
+  width:375px;height:812px;border-radius:52px;flex-shrink:0;overflow:hidden;
+  position:relative;display:flex;flex-direction:column;background:var(--bg-phone);
+  box-shadow:0 0 0 1px rgba(142,207,201,.07),0 0 0 10px var(--shell-mid),
+    0 0 0 12px var(--shell-outer),0 50px 120px var(--shell-shadow),0 20px 40px rgba(0,0,0,.18);
+  transition:background .3s,box-shadow .3s;
+}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:120px;height:32px;background:var(--bg-notch);border-radius:0 0 22px 22px;z-index:100;}
+.phone-inner{flex:1;display:flex;flex-direction:column;padding-top:38px;overflow:hidden;}
+.sb{display:flex;justify-content:space-between;align-items:center;
+  padding:0 26px;height:26px;font-size:13px;color:var(--txt-status);font-weight:600;flex-shrink:0;}
+.screen{flex:1;display:flex;flex-direction:column;overflow:hidden;transition:background .3s;}
+
+/* ── Bottom nav ── */
+.bnav{flex-shrink:0;height:72px;background:var(--bg-bnav);border-top:1px solid var(--border-bnav);
+  display:flex;align-items:center;justify-content:space-around;padding:0 8px 8px;}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:4px;
+  flex:1;padding:8px 0;border-radius:14px;cursor:pointer;transition:all .2s;border:none;background:transparent;
+  min-height:60px;}
+.bnav-icon{font-size:24px;line-height:1;}
+.bnav-lbl{font-size:12px;color:var(--txt-dim);font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
+.bnav-item.active .bnav-lbl{color:var(--teal-label);}
+.bnav-item.active .bnav-icon{filter:drop-shadow(0 0 5px rgba(91,191,179,.5));}
+
+/* ── Keyframes ── */
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes orbBreath{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+@keyframes orbActive{0%,100%{transform:scale(1);}25%{transform:scale(1.09);}75%{transform:scale(1.04);}}
+@keyframes ripple{0%{transform:scale(1);opacity:.5;}100%{transform:scale(2.8);opacity:0;}}
+@keyframes waveBar{0%,100%{transform:scaleY(.15);}50%{transform:scaleY(1);}}
+@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:.9;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 28px var(--orb1);}50%{box-shadow:0 0 58px rgba(91,191,179,.55);}}
+@keyframes scanLine{0%{top:9%;}100%{top:78%;}}
+@keyframes countPop{0%{transform:scale(.5);opacity:0;}50%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
+@keyframes flashW{0%,100%{opacity:0;}30%{opacity:.9;}}
+@keyframes voicePing{0%,100%{opacity:.4;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+@keyframes dot1{0%,60%,100%{opacity:.2;}20%{opacity:1;}}
+@keyframes dot2{0%,20%,80%,100%{opacity:.2;}40%{opacity:1;}}
+@keyframes dot3{0%,40%,100%{opacity:.2;}60%{opacity:1;}}
+@keyframes progressFill{from{width:0%;}to{width:100%;}}
+
+/* ═══════════════════════════════════════════════════
+   VOICE OPTIONS PANEL — replaces all action buttons
+═══════════════════════════════════════════════════ */
+.voice-panel{
+  flex-shrink:0;
+  padding:12px 16px 14px;
+  border-top:1px solid var(--border-subtle);
+  display:flex;flex-direction:column;gap:10px;
+}
+.voice-panel-label{
+  display:flex;align-items:center;gap:7px;
+  font-size:14px;color:var(--teal-label);font-weight:800;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px;
+}
+.vpl-dot{width:7px;height:7px;border-radius:50%;background:var(--teal-label);animation:voicePing 2s infinite;}
+
+.voice-opt{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:20px;
+  background:var(--bg-card);border:1px solid var(--border-card);
+  cursor:pointer;transition:all .18s;
+  min-height:64px;
+}
+.voice-opt:active{transform:scale(.98);}
+.voice-opt-icon{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:var(--teal-soft);border:1.5px solid var(--teal-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.voice-opt-body{flex:1;min-width:0;}
+.voice-opt-say{font-size:14px;color:var(--txt-dim);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;}
+.voice-opt-phrase{font-size:20px;color:var(--txt-primary);font-weight:500;line-height:1.5;}
+
+/* ═══════════════════════════════════════════════════
+   SHARED: Laah message bubble
+═══════════════════════════════════════════════════ */
+.laah-msg{
+  background:var(--bg-bubble);border:1.5px solid var(--border-laah);
+  border-radius:6px 22px 22px 22px;padding:14px 18px;animation:slideUp .3s ease;
+}
+.laah-tag{font-size:14px;color:var(--teal-label);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.laah-txt{font-size:22px;color:var(--txt-primary);line-height:1.6;font-weight:400;}
+
+/* Orb */
+.orb-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:200px;height:200px;}
+.orb-ring{position:absolute;width:200px;height:200px;border-radius:50%;
+  border:1.5px solid rgba(142,207,201,.14);animation:ripple 3.5s ease-out infinite;}
+.orb-ring:nth-child(2){animation-delay:1.1s;}
+.orb-ring:nth-child(3){animation-delay:2.2s;}
+.orb{width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#A8E6DF,#5BBFB3 40%,#3A9B93 70%,#1E5E5A);
+  box-shadow:0 0 40px var(--orb1),0 0 80px var(--orb2);
+  animation:orbBreath 4s ease-in-out infinite,glowPulse 4s ease-in-out infinite;
+  display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+.orb-inner{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.16);
+  display:flex;align-items:center;justify-content:center;}
+
+/* Screen header row */
+.s-header{flex-shrink:0;padding:16px 22px 10px;display:flex;align-items:center;gap:14px;}
+.s-orb-sm{width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 35%,#A8E6DF,#5BBFB3 50%,#1E5E5A);
+  box-shadow:0 0 18px var(--orb1);animation:orbBreath 3s ease-in-out infinite;}
+.s-orb-sm.green{background:radial-gradient(circle at 35% 35%,#A8F5C2,#64C483 50%,#2A7A4F);}
+.s-hdr-sup{font-size:15px;color:var(--txt-label);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.s-hdr-title{font-size:28px;color:var(--txt-primary);font-weight:700;line-height:1.3;margin-top:2px;}
+.s-hdr-sub{font-size:17px;color:var(--teal-label);opacity:.65;margin-top:2px;}
+
+/* Settings toggle */
+.toggle{width:64px;height:36px;border-radius:18px;flex-shrink:0;align-self:flex-start;margin-top:2px;
+  position:relative;cursor:pointer;transition:all .25s;background:var(--toggle-off);}
+.toggle.on{background:linear-gradient(135deg,#5BBFB3,#3A9B93);}
+.toggle-thumb{position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:50%;
+  background:#fff;transition:all .25s;box-shadow:0 2px 6px rgba(0,0,0,.25);}
+.toggle.on .toggle-thumb{transform:translateX(28px);}
+
+/* ═══════════════════════════════════════════════════
+   ONBOARDING: PHONE AUTH — buttons KEPT
+═══════════════════════════════════════════════════ */
+#s-ob-phone,#s-ob-verify,#s-ob-pin{background:var(--gr-ob);}
+
+.ob-header{flex-shrink:0;padding:20px 24px 10px;}
+.ob-step{font-size:15px;color:var(--teal-label);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.ob-title{font-size:30px;color:var(--txt-primary);font-weight:700;line-height:1.3;}
+.ob-sub{font-size:19px;color:var(--txt-dim);margin-top:8px;font-weight:400;line-height:1.6;}
+
+.ob-laah{flex-shrink:0;margin:0 20px 14px;}
+
+/* Phone display field */
+.phone-display{
+  flex-shrink:0;margin:0 20px 14px;
+  background:var(--bg-card);border:1.5px solid var(--border-card);
+  border-radius:20px;padding:18px 22px;
+  display:flex;align-items:center;gap:12px;
+}
+.phone-flag{font-size:28px;flex-shrink:0;}
+.phone-num{font-size:30px;color:var(--txt-primary);font-weight:600;letter-spacing:2px;flex:1;}
+.phone-cursor{display:inline-block;width:3px;height:30px;background:var(--teal-label);
+  margin-left:3px;vertical-align:middle;animation:pulse 1s infinite;}
+
+/* Keypad */
+.keypad{flex-shrink:0;padding:0 20px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.key{
+  height:64px;border-radius:18px;border:none;cursor:pointer;
+  background:var(--bg-keypad);border:1.5px solid var(--border-card);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;transition:all .15s;
+}
+.key:active{transform:scale(.93);background:var(--bg-card-alt);}
+.key-num{font-size:28px;color:var(--txt-primary);font-weight:500;line-height:1;}
+.key-letters{font-size:12px;color:var(--txt-dim);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.key.wide{grid-column:span 1;}
+.key.primary{background:linear-gradient(135deg,#5BBFB3,#3A9B93);border-color:transparent;}
+.key.primary .key-num{color:#fff;font-size:20px;font-weight:700;}
+.key.backspace .key-num{font-size:22px;}
+
+/* ──── JS-driven phone number display ──── */
+/* defined in CSS custom var so nothing needed */
+
+/* SMS code input */
+.sms-boxes{
+  flex-shrink:0;margin:0 20px 18px;
+  display:flex;gap:10px;justify-content:center;
+}
+.sms-box{
+  width:62px;height:72px;border-radius:18px;
+  background:var(--bg-card);border:1.5px solid var(--border-card);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;color:var(--txt-primary);font-weight:700;
+  transition:all .2s;
+}
+.sms-box.active{border-color:var(--teal-label);background:var(--teal-soft);}
+.sms-box.filled{border-color:rgba(142,207,201,.3);}
+
+/* Auth submit button */
+.auth-btn{
+  flex-shrink:0;margin:0 20px 16px;
+  height:64px;border-radius:22px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#5BBFB3,#3A9B93);
+  color:#fff;font-size:20px;font-weight:700;
+  box-shadow:0 8px 24px rgba(91,191,179,.28);
+  transition:all .18s;
+}
+.auth-btn:active{transform:scale(.97);}
+.auth-btn:disabled{opacity:.4;cursor:default;}
+
+/* PIN dots */
+.pin-dots{flex-shrink:0;display:flex;gap:18px;justify-content:center;padding:10px 0 18px;}
+.pin-dot{width:22px;height:22px;border-radius:50%;
+  background:var(--bg-card);border:2px solid var(--border-card);transition:all .2s;}
+.pin-dot.filled{background:var(--teal-label);border-color:var(--teal-label);}
+
+/* ═══════════════════════════════════════════════════
+   CHAT CONVERSATION UI — shared by Home, Health, Meals
+═══════════════════════════════════════════════════ */
+
+/* Top bar — always visible, no scroll */
+.chat-topbar{
+  flex-shrink:0;
+  padding:12px 20px 10px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border-subtle);
+}
+.chat-topbar-left{display:flex;align-items:center;gap:10px;}
+.chat-orb-xs{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 35%,#A8E6DF,#5BBFB3 50%,#1E5E5A);
+  box-shadow:0 0 12px var(--orb1);
+  animation:orbBreath 3.5s ease-in-out infinite;
+}
+.chat-brand{font-size:22px;font-weight:900;letter-spacing:-.5px;
+  background:linear-gradient(135deg,#8ECFC9,#B8A4E8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.chat-badge{
+  background:var(--teal-soft);border:1.5px solid var(--teal-border);
+  border-radius:20px;padding:6px 14px;
+  font-size:14px;color:var(--teal-label);font-weight:700;letter-spacing:.3px;
+}
+.chat-badge.amber{background:rgba(232,168,124,.1);border-color:rgba(232,168,124,.28);color:var(--amber);}
+
+/* Scrollable thread — fills all remaining space */
+.chat-thread{
+  flex:1;overflow-y:auto;
+  padding:16px 16px 10px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.chat-thread::-webkit-scrollbar{width:0;}
+
+/* Timestamp divider */
+.chat-ts{
+  text-align:center;font-size:14px;color:var(--txt-dimmer);
+  font-weight:600;letter-spacing:.3px;padding:4px 0 2px;
+}
+
+/* Laah message row */
+.chat-row-laah{display:flex;flex-direction:column;gap:5px;align-items:flex-start;max-width:92%;}
+.chat-sender{font-size:14px;color:var(--teal-label);font-weight:800;letter-spacing:1px;text-transform:uppercase;padding-left:4px;margin-bottom:1px;}
+.chat-bubble-laah{
+  background:var(--bg-bubble);border:1.5px solid var(--border-laah);
+  border-radius:6px 20px 20px 20px;padding:14px 18px;
+}
+.chat-bubble-laah p{font-size:21px;color:var(--txt-primary);line-height:1.6;font-weight:400;}
+
+/* User message row */
+.chat-row-user{
+  display:flex;flex-direction:column;align-items:flex-end;max-width:88%;align-self:flex-end;
+}
+.chat-bubble-user{
+  background:var(--bg-card-alt);border:1.5px solid var(--border-card);
+  border-radius:20px 20px 6px 20px;padding:14px 18px;
+}
+.chat-bubble-user p{font-size:21px;color:var(--txt-secondary);line-height:1.6;font-weight:400;}
+
+/* Typing indicator — three dots */
+.chat-typing{display:flex;align-items:center;gap:7px;padding:14px 18px;}
+.tdot{width:10px;height:10px;border-radius:50%;background:var(--teal-label);}
+.tdot:nth-child(1){animation:dot1 1.2s infinite;}
+.tdot:nth-child(2){animation:dot2 1.2s infinite;}
+.tdot:nth-child(3){animation:dot3 1.2s infinite;}
+
+/* ── Inline data cards (embedded in chat thread) ── */
+.chat-card{
+  background:var(--bg-card);border:1.5px solid var(--border-card);
+  border-radius:18px;overflow:hidden;width:100%;
+}
+.chat-card-head{
+  padding:13px 16px 11px;
+  font-size:15px;color:var(--teal-label);font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:1px solid var(--border-subtle);
+}
+.chat-card-body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:12px;}
+
+/* Vital row inside card */
+.ccard-vital{display:flex;align-items:center;gap:12px;}
+.ccard-vital-icon{font-size:26px;width:36px;text-align:center;flex-shrink:0;}
+.ccard-vital-info{flex:1;}
+.ccard-vital-lbl{font-size:16px;color:var(--txt-dim);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.ccard-vital-val{font-size:26px;color:var(--txt-primary);font-weight:700;line-height:1.2;margin-top:2px;}
+.ccard-vital-sub{font-size:15px;color:var(--txt-dim);margin-top:2px;}
+/* Status badge — pill shape with text label (color + shape + text: covers color-blind users) */
+.ccard-badge{
+  border-radius:20px;padding:6px 10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex-shrink:0;font-weight:800;min-width:52px;gap:1px;
+}
+.ccard-badge-symbol{font-size:16px;line-height:1;}
+.ccard-badge-txt{font-size:13px;font-weight:800;letter-spacing:.3px;line-height:1;}
+.ccard-badge.good{background:var(--badge-good);color:var(--green);}
+.ccard-badge.warn{background:var(--badge-warn);color:var(--amber);}
+.ccard-badge.bad {background:var(--badge-bad); color:var(--red);}
+
+/* Med row inside card */
+.ccard-med{display:flex;align-items:center;gap:12px;}
+.ccard-med-icon{font-size:26px;width:36px;text-align:center;flex-shrink:0;}
+.ccard-med-info{flex:1;}
+.ccard-med-name{font-size:21px;color:var(--txt-primary);font-weight:600;line-height:1.4;}
+.ccard-med-dose{font-size:17px;color:var(--txt-dim);margin-top:3px;line-height:1.4;}
+/* Med check — pill with text for accessibility */
+.ccard-med-check{
+  border-radius:16px;padding:6px 10px;
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  flex-shrink:0;font-weight:800;min-width:52px;
+}
+.ccard-med-check-sym{font-size:16px;line-height:1;}
+.ccard-med-check-txt{font-size:13px;font-weight:800;letter-spacing:.3px;line-height:1;}
+.ccard-med-done{background:var(--badge-good);color:var(--green);}
+.ccard-med-todo{background:var(--bg-card);border:1.5px solid var(--border-card);color:var(--txt-dim);}
+
+/* Nutrition row inside card */
+.ccard-nutr{display:flex;align-items:center;gap:10px;}
+.ccard-nutr-lbl{font-size:16px;color:var(--txt-dim);font-weight:600;width:68px;flex-shrink:0;}
+.ccard-nutr-bg{flex:1;height:10px;background:var(--bg-card-alt);border-radius:5px;overflow:hidden;}
+.ccard-nutr-fill{height:100%;border-radius:5px;}
+.ccard-nutr-val{font-size:16px;color:var(--txt-secondary);font-weight:700;width:46px;text-align:right;flex-shrink:0;}
+
+/* Meal photo bubble */
+.chat-photo-bubble{
+  background:var(--bg-card);border:1.5px solid var(--border-card);
+  border-radius:20px 20px 6px 20px;overflow:hidden;width:200px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.chat-photo-inner{
+  width:100%;height:120px;
+  background:linear-gradient(135deg,rgba(91,191,179,.1),rgba(100,196,131,.08));
+  display:flex;align-items:center;justify-content:center;font-size:52px;
+}
+.chat-photo-lbl{font-size:16px;color:var(--txt-dim);padding:10px 14px;font-weight:500;}
+
+/* ── LEGACY (kept for listening / responding screens) ── */
+#s-home{background:var(--gr-home);animation:fadeIn .3s;}
+.home-top{padding:14px 24px 0;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.home-brand{font-size:22px;font-weight:900;letter-spacing:-.5px;
+  background:linear-gradient(135deg,#8ECFC9,#B8A4E8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.home-badge{background:var(--teal-soft);border:1.5px solid var(--teal-border);
+  border-radius:20px;padding:5px 12px;font-size:12px;color:var(--teal-label);font-weight:700;}
+.orb-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.orb-status{margin-top:20px;font-size:18px;color:var(--txt-label);font-weight:500;text-align:center;}
+.orb-hint{font-size:15px;color:var(--txt-dimmer);font-weight:400;margin-top:6px;text-align:center;}
+.conv-area{flex-shrink:0;padding:0 20px 16px;}
+
+/* ═══════════════════════════════════════════════════
+   LISTENING
+═══════════════════════════════════════════════════ */
+#s-listen{background:var(--gr-listen);}
+.listen-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.listen-orb{width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#A8E6DF,#5BBFB3 40%,#3A9B93 70%,#1E5E5A);
+  box-shadow:0 0 60px rgba(91,191,179,.5),0 0 120px rgba(91,191,179,.18);
+  animation:orbActive 1.2s ease-in-out infinite;
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.wave-bars{display:flex;align-items:center;gap:5px;height:48px;margin-bottom:8px;}
+.wave-bar{width:5px;border-radius:4px;
+  background:linear-gradient(180deg,var(--teal-label),rgba(142,207,201,.25));
+  animation:waveBar 1s ease-in-out infinite;}
+.wave-bar:nth-child(1){height:16px;animation-delay:.0s;}
+.wave-bar:nth-child(2){height:28px;animation-delay:.1s;}
+.wave-bar:nth-child(3){height:44px;animation-delay:.2s;}
+.wave-bar:nth-child(4){height:36px;animation-delay:.3s;}
+.wave-bar:nth-child(5){height:48px;animation-delay:.4s;}
+.wave-bar:nth-child(6){height:36px;animation-delay:.3s;}
+.wave-bar:nth-child(7){height:44px;animation-delay:.2s;}
+.wave-bar:nth-child(8){height:28px;animation-delay:.1s;}
+.wave-bar:nth-child(9){height:16px;animation-delay:.0s;}
+.listen-lbl{font-size:18px;color:var(--txt-label);font-weight:500;}
+.user-bubble{flex-shrink:0;padding:16px 20px;}
+.user-speech{background:var(--bg-card-alt);border:1.5px solid var(--border-card);
+  border-radius:22px 22px 6px 22px;padding:14px 18px;}
+.user-speech-tag{font-size:11px;color:var(--txt-dim);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.user-speech-txt{font-size:22px;color:var(--txt-primary);line-height:1.6;font-weight:400;}
+.cursor-blink{display:inline-block;width:3px;height:22px;background:var(--teal-label);
+  margin-left:3px;vertical-align:middle;animation:pulse 1s infinite;}
+
+/* ═══════════════════════════════════════════════════
+   RESPONDING
+═══════════════════════════════════════════════════ */
+#s-respond{background:var(--gr-respond);}
+.respond-top{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:24px 20px 14px;}
+.respond-orb{width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#A8E6DF,#5BBFB3 40%,#3A9B93 70%,#1E5E5A);
+  box-shadow:0 0 50px rgba(91,191,179,.5),0 0 100px rgba(91,191,179,.18);
+  animation:orbBreath 2.5s ease-in-out infinite;
+  display:flex;align-items:center;justify-content:center;}
+.respond-bars{display:flex;align-items:center;gap:4px;height:26px;margin-top:14px;}
+.rbar{width:4px;border-radius:3px;
+  background:linear-gradient(180deg,var(--teal-label),rgba(142,207,201,.25));
+  animation:waveBar .8s ease-in-out infinite;}
+.rbar:nth-child(1){height:11px;animation-delay:.0s;}
+.rbar:nth-child(2){height:19px;animation-delay:.1s;}
+.rbar:nth-child(3){height:25px;animation-delay:.2s;}
+.rbar:nth-child(4){height:19px;animation-delay:.3s;}
+.rbar:nth-child(5){height:11px;animation-delay:.4s;}
+.respond-lbl{font-size:18px;color:var(--txt-label);font-weight:500;margin-top:10px;}
+.conv-scroll{flex:1;overflow-y:auto;padding:0 20px 10px;display:flex;flex-direction:column;gap:12px;}
+.msg-user{background:var(--bg-card-alt);border:1.5px solid var(--border-card);
+  border-radius:22px 22px 6px 22px;padding:14px 18px;align-self:flex-end;max-width:90%;}
+.msg-user-txt{font-size:20px;color:var(--txt-secondary);line-height:1.6;font-weight:400;}
+.msg-laah{background:var(--bg-bubble);border:1.5px solid var(--border-laah);
+  border-radius:6px 22px 22px 22px;padding:16px 18px;max-width:95%;}
+.msg-laah-tag{font-size:11px;color:var(--teal-label);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.msg-laah-txt{font-size:22px;color:var(--txt-primary);line-height:1.6;font-weight:400;}
+
+/* ═══════════════════════════════════════════════════
+   LOCK SCREEN
+═══════════════════════════════════════════════════ */
+#s-notif{background:var(--gr-lock);position:relative;}
+.lock-blur{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 28%,rgba(142,207,201,.06) 0%,transparent 60%);}
+.lock-time-area{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:28px 20px 18px;position:relative;z-index:2;}
+.lock-time{font-size:72px;font-weight:200;color:var(--lock-time);letter-spacing:-2px;line-height:1;}
+.lock-date{font-size:20px;color:var(--lock-date);font-weight:400;margin-top:6px;}
+.notif-card{margin:0 18px;background:var(--notif-bg);border:1.5px solid var(--notif-border);
+  border-radius:28px;overflow:hidden;position:relative;z-index:2;flex-shrink:0;backdrop-filter:blur(20px);}
+.notif-top{padding:16px 20px 14px;border-bottom:1px solid var(--notif-div);display:flex;align-items:center;gap:12px;}
+.notif-orb-sm{width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 35%,#A8E6DF,#5BBFB3 50%,#1E5E5A);
+  box-shadow:0 0 14px rgba(91,191,179,.3);}
+.notif-from{font-size:18px;color:var(--txt-secondary);font-weight:600;}
+.notif-when{font-size:15px;color:var(--txt-dim);margin-top:2px;}
+.notif-body{padding:16px 20px 18px;}
+.notif-txt{font-size:24px;color:var(--txt-primary);line-height:1.6;font-weight:400;}
+
+/* Voice response area replaces tap buttons */
+.notif-voice{padding:0 18px 18px;display:flex;flex-direction:column;gap:8px;position:relative;z-index:2;}
+.notif-voice-label{font-size:14px;color:var(--teal-label);font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  display:flex;align-items:center;gap:7px;margin-bottom:2px;}
+.notif-voice-opt{
+  background:var(--bg-card);border:1px solid var(--border-card);
+  border-radius:18px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  min-height:64px;
+}
+.nvo-icon{font-size:22px;width:36px;text-align:center;flex-shrink:0;}
+.nvo-txt{font-size:20px;color:var(--txt-primary);font-weight:500;line-height:1.5;}
+
+/* ═══════════════════════════════════════════════════
+   HEALTH SUMMARY
+═══════════════════════════════════════════════════ */
+#s-health{background:var(--gr-health);}
+.vitals-scroll{flex:1;overflow-y:auto;padding:0 20px 10px;display:flex;flex-direction:column;gap:10px;}
+.vital-card{background:var(--bg-card);border:1.5px solid var(--border-card);
+  border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:16px;}
+.vital-icon{font-size:36px;width:50px;text-align:center;flex-shrink:0;}
+.vital-info{flex:1;}
+.vital-lbl{font-size:15px;color:var(--txt-dim);font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+.vital-val{font-size:32px;color:var(--txt-primary);font-weight:700;line-height:1.1;margin-top:2px;}
+.vital-sub{font-size:16px;color:var(--txt-dim);margin-top:2px;}
+.vital-badge{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;font-weight:800;}
+.vb-good{background:var(--badge-good);color:var(--green);}
+.vb-warn{background:var(--badge-warn);color:var(--amber);}
+.vb-bad {background:var(--badge-bad); color:var(--red);}
+
+/* ═══════════════════════════════════════════════════
+   MEDICATION
+═══════════════════════════════════════════════════ */
+#s-meds{background:var(--gr-meds);}
+.meds-list{flex:1;overflow-y:auto;padding:0 20px 10px;display:flex;flex-direction:column;gap:10px;}
+.med-card{background:var(--bg-card);border:1.5px solid var(--border-card);
+  border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:16px;}
+.med-card.taken{opacity:.38;}
+.med-icon{font-size:36px;width:52px;text-align:center;flex-shrink:0;}
+.med-info{flex:1;}
+.med-name{font-size:24px;color:var(--txt-primary);font-weight:700;line-height:1.2;}
+.med-dose{font-size:18px;color:var(--txt-dim);margin-top:3px;}
+.med-check{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.med-done{background:var(--badge-good);color:var(--green);font-size:22px;}
+.med-todo{background:var(--bg-card);border:2px solid var(--border-card);font-size:18px;color:var(--txt-dim);}
+
+/* ═══════════════════════════════════════════════════
+   MEAL CAMERA — no shutter button
+═══════════════════════════════════════════════════ */
+#s-meal-photo{background:#000;}
+.cam-view{flex:1;position:relative;overflow:hidden;background:var(--gr-cam);display:flex;flex-direction:column;}
+.cam-hint{position:absolute;top:14px;left:14px;right:14px;z-index:10;
+  background:var(--cam-hint);border:1.5px solid var(--cam-hint-b);
+  border-radius:18px;padding:12px 16px;backdrop-filter:blur(10px);}
+.cam-hint-txt{font-size:20px;color:var(--txt-primary);line-height:1.5;font-weight:400;}
+.cam-guide{position:absolute;width:28px;height:28px;border-color:rgba(255,255,255,.38);border-style:solid;transition:border-color .4s;}
+.cam-guide.tl{top:100px;left:28px;border-width:3px 0 0 3px;}
+.cam-guide.tr{top:100px;right:28px;border-width:3px 3px 0 0;}
+.cam-guide.bl{bottom:120px;left:28px;border-width:0 0 3px 3px;}
+.cam-guide.br{bottom:120px;right:28px;border-width:0 3px 3px 0;}
+.cam-guide.det{border-color:var(--scan);animation:voicePing 1s ease-in-out infinite;}
+.cam-scan{position:absolute;left:28px;right:28px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--scan),transparent);
+  animation:scanLine 2s ease-in-out infinite alternate;
+  box-shadow:0 0 8px rgba(91,191,179,.45);}
+
+@keyframes detectedRing{0%,100%{box-shadow:0 0 0 0 rgba(91,191,179,0);}50%{box-shadow:0 0 0 14px rgba(91,191,179,.3);}}
+.countdown-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:20;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;opacity:0;transition:opacity .3s;}
+.countdown-wrap.vis{opacity:1;}
+.cnt-ring{width:90px;height:90px;border-radius:50%;border:3px solid rgba(255,255,255,.12);
+  position:relative;display:flex;align-items:center;justify-content:center;}
+.cnt-ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+.cnt-ring circle{fill:none;stroke:var(--scan);stroke-width:4;stroke-dasharray:251;
+  stroke-dashoffset:251;stroke-linecap:round;transition:stroke-dashoffset .9s linear;}
+.cnt-ring.go circle{stroke-dashoffset:0;}
+.cnt-num{font-size:36px;font-weight:700;color:#fff;animation:countPop .35s ease;}
+.cnt-lbl{font-size:17px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.3px;}
+
+/* Voice cue bar at bottom of camera — no button */
+.cam-voice-bar{position:absolute;bottom:0;left:0;right:0;padding:14px 20px 22px;z-index:10;
+  background:linear-gradient(0deg,rgba(0,0,0,.82) 0%,transparent 100%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;}
+.cam-voice-pill{background:rgba(91,191,179,.15);border:1.5px solid rgba(91,191,179,.3);
+  border-radius:22px;padding:10px 20px;
+  font-size:18px;color:#8ECFC9;font-weight:700;letter-spacing:.3px;
+  display:flex;align-items:center;gap:8px;}
+.cam-vdot{width:7px;height:7px;border-radius:50%;background:#8ECFC9;animation:pulse 1.2s infinite;}
+.cam-flash{position:absolute;inset:0;background:#fff;z-index:30;pointer-events:none;opacity:0;}
+.cam-flash.flash{animation:flashW .45s ease;}
+
+/* ═══════════════════════════════════════════════════
+   MEAL RESULT
+═══════════════════════════════════════════════════ */
+#s-meal-result{background:var(--gr-meal);}
+.meal-scroll{flex:1;overflow-y:auto;padding:0 20px 10px;display:flex;flex-direction:column;gap:10px;}
+.food-card{background:var(--bg-card);border:1px solid var(--border-card);border-radius:20px;padding:16px 18px;}
+.food-name{font-size:22px;color:var(--txt-primary);font-weight:600;}
+.food-portion{font-size:17px;color:var(--txt-dim);margin-top:2px;}
+.nutr-card{background:var(--bg-card);border:1.5px solid var(--border-card);border-radius:20px;padding:18px 20px;}
+.nutr-head{font-size:15px;color:var(--txt-dim);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;}
+.nutr-rows{display:flex;flex-direction:column;gap:10px;}
+.nutr-row{display:flex;align-items:center;gap:10px;}
+.nutr-lbl{font-size:16px;color:var(--txt-dim);font-weight:600;width:72px;flex-shrink:0;}
+.nutr-bg{flex:1;height:10px;background:var(--bg-card-alt);border-radius:6px;overflow:hidden;}
+.nutr-fill{height:100%;border-radius:6px;}
+.nutr-val{font-size:16px;color:var(--txt-secondary);font-weight:600;width:44px;text-align:right;flex-shrink:0;}
+
+/* ═══════════════════════════════════════════════════
+   SETTINGS — controls kept
+═══════════════════════════════════════════════════ */
+#s-settings{background:var(--gr-set);}
+.set-header{flex-shrink:0;padding:20px 24px 12px;}
+.set-title{font-size:32px;color:var(--txt-primary);font-weight:700;}
+.set-sub{font-size:18px;color:var(--txt-dim);margin-top:4px;}
+.set-scroll{flex:1;overflow-y:auto;padding:0 20px 16px;display:flex;flex-direction:column;gap:10px;}
+.set-section{font-size:14px;color:var(--txt-dim);font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:10px 4px 4px;}
+.set-row{background:var(--bg-card);border:1.5px solid var(--border-card);
+  border-radius:20px;padding:16px 18px;display:flex;align-items:center;gap:12px;}
+.set-row.hi{background:var(--setting-hi);border-color:var(--setting-hi-b);}
+.set-icon{font-size:26px;width:36px;text-align:center;flex-shrink:0;align-self:flex-start;margin-top:2px;}
+.set-info{flex:1;min-width:0;}
+.set-title-row{font-size:19px;color:var(--txt-primary);font-weight:600;line-height:1.3;
+  white-space:normal;overflow-wrap:break-word;}
+.set-desc{font-size:14px;color:var(--txt-dim);margin-top:4px;line-height:1.45;
+  white-space:normal;overflow-wrap:break-word;}
+.chevron{font-size:20px;color:var(--chevron);flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<!-- ══ Page Header ══ -->
+<div class="page-head">
+  <div class="page-eye">VOICE-FIRST · NO BUTTONS · v3</div>
+  <div class="page-brand">Laah</div>
+  <div class="page-sub">US Senior Health Companion</div>
+  <div class="mode-toggle">
+    <button class="mode-btn" id="btn-sys" onclick="setTheme('system')">System</button>
+    <button class="mode-btn" id="btn-lgt" onclick="setTheme('light')">☀ Light</button>
+    <button class="mode-btn" id="btn-drk" onclick="setTheme('dark')">☾ Dark</button>
+  </div>
+</div>
+
+<!-- ══ Philosophy ══ -->
+<div class="philo">
+  <div class="philo-title">What changed in v3</div>
+  <div class="philo-row"><div class="philo-dot"></div><div class="philo-txt"><strong style="color:var(--teal-label)">All feature buttons removed</strong> — replaced by "Voice Options" panels showing what to say</div></div>
+  <div class="philo-row"><div class="philo-dot"></div><div class="philo-txt"><strong style="color:var(--teal-label)">Phone auth + Settings</strong> — only screens that keep interactive controls</div></div>
+  <div class="philo-row"><div class="philo-dot"></div><div class="philo-txt"><strong style="color:var(--teal-label)">Camera shutter removed</strong> — auto-detect + "Take it" voice only</div></div>
+  <div class="philo-row"><div class="philo-dot"></div><div class="philo-txt"><strong style="color:var(--teal-label)">Lock screen alert</strong> — voice response options replace tap buttons</div></div>
+</div>
+
+<!-- ══ Tabs ══ -->
+<div class="tabs-wrap">
+  <div class="tab-group-label">Onboarding (auth — buttons kept)</div>
+  <div class="tabs">
+    <div class="tab t-ob active" onclick="show('ob-phone')"><span class="tab-e">📱</span><span class="tab-lbl">Phone #</span></div>
+    <div class="tab t-ob" onclick="show('ob-verify')"><span class="tab-e">✉️</span><span class="tab-lbl">Verify</span></div>
+    <div class="tab t-ob" onclick="show('ob-pin')"><span class="tab-e">🔒</span><span class="tab-lbl">Set PIN</span></div>
+  </div>
+  <div class="tab-group-label">Core (no buttons)</div>
+  <div class="tabs">
+    <div class="tab t-core" onclick="show('home')"><span class="tab-e">🌿</span><span class="tab-lbl">Home</span></div>
+    <div class="tab t-core" onclick="show('listen')"><span class="tab-e">👂</span><span class="tab-lbl">Listening</span></div>
+    <div class="tab t-core" onclick="show('respond')"><span class="tab-e">💬</span><span class="tab-lbl">Responding</span></div>
+    <div class="tab t-core" onclick="show('notif')"><span class="tab-e">🔔</span><span class="tab-lbl">Lock Alert</span></div>
+  </div>
+  <div class="tab-group-label">Health (no buttons)</div>
+  <div class="tabs">
+    <div class="tab t-health" onclick="show('health')"><span class="tab-e">🩺</span><span class="tab-lbl">Health Chat</span></div>
+  </div>
+  <div class="tab-group-label">Meal (no buttons)</div>
+  <div class="tabs">
+    <div class="tab t-meal" onclick="show('meal-photo')"><span class="tab-e">📸</span><span class="tab-lbl">Camera</span></div>
+    <div class="tab t-meal" onclick="show('meals')"><span class="tab-e">🥗</span><span class="tab-lbl">Meals Chat</span></div>
+  </div>
+  <div class="tab-group-label">Settings (controls kept)</div>
+  <div class="tabs">
+    <div class="tab t-settings" onclick="show('settings')"><span class="tab-e">⚙️</span><span class="tab-lbl">Settings</span></div>
+  </div>
+</div>
+
+<!-- ══ Phone Shell ══ -->
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-inner">
+  <div class="sb" id="status-bar"><span>9:41</span><span>●●●● 100%</span></div>
+
+  <!-- ═══════════════════════════════════════
+       ONBOARDING: PHONE NUMBER
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-ob-phone">
+    <div class="ob-header">
+      <div class="ob-step">Step 1 of 2 · Verification</div>
+      <div class="ob-title">What's your phone number?</div>
+      <div class="ob-sub">We'll text you a quick code to verify.</div>
+    </div>
+
+    <div class="ob-laah">
+      <div class="laah-msg">
+        <div class="laah-tag">Laah</div>
+        <div class="laah-txt">Hi! I'm Laah. Let's get you set up — just takes a minute.</div>
+      </div>
+    </div>
+
+    <div class="phone-display">
+      <div class="phone-flag">🇺🇸</div>
+      <div class="phone-num" id="phone-display">+1 <span id="phone-digits">&nbsp;</span><span class="phone-cursor"></span></div>
+    </div>
+
+    <div class="keypad" id="keypad-phone">
+      <div class="key" onclick="keyPress('phone','1')"><div class="key-num">1</div><div class="key-letters">&nbsp;</div></div>
+      <div class="key" onclick="keyPress('phone','2')"><div class="key-num">2</div><div class="key-letters">ABC</div></div>
+      <div class="key" onclick="keyPress('phone','3')"><div class="key-num">3</div><div class="key-letters">DEF</div></div>
+      <div class="key" onclick="keyPress('phone','4')"><div class="key-num">4</div><div class="key-letters">GHI</div></div>
+      <div class="key" onclick="keyPress('phone','5')"><div class="key-num">5</div><div class="key-letters">JKL</div></div>
+      <div class="key" onclick="keyPress('phone','6')"><div class="key-num">6</div><div class="key-letters">MNO</div></div>
+      <div class="key" onclick="keyPress('phone','7')"><div class="key-num">7</div><div class="key-letters">PQRS</div></div>
+      <div class="key" onclick="keyPress('phone','8')"><div class="key-num">8</div><div class="key-letters">TUV</div></div>
+      <div class="key" onclick="keyPress('phone','9')"><div class="key-num">9</div><div class="key-letters">WXYZ</div></div>
+      <div class="key backspace" onclick="keyPress('phone','⌫')"><div class="key-num">⌫</div></div>
+      <div class="key" onclick="keyPress('phone','0')"><div class="key-num">0</div><div class="key-letters">+</div></div>
+      <div class="key primary" id="phone-send-btn" onclick="show('ob-verify')"><div class="key-num">Send →</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       ONBOARDING: VERIFY SMS
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-ob-verify" style="display:none;">
+    <div class="ob-header">
+      <div class="ob-step">Step 1 of 2 · Verification</div>
+      <div class="ob-title">Check your texts</div>
+      <div class="ob-sub">We sent a 4-digit code to your phone.</div>
+    </div>
+
+    <div class="ob-laah">
+      <div class="laah-msg">
+        <div class="laah-tag">Laah</div>
+        <div class="laah-txt">The code is <strong>0000</strong> for this demo. Enter it below.</div>
+      </div>
+    </div>
+
+    <div class="sms-boxes">
+      <div class="sms-box active" id="sms-0"></div>
+      <div class="sms-box" id="sms-1"></div>
+      <div class="sms-box" id="sms-2"></div>
+      <div class="sms-box" id="sms-3"></div>
+    </div>
+
+    <div class="keypad">
+      <div class="key" onclick="keyPress('sms','1')"><div class="key-num">1</div><div class="key-letters">&nbsp;</div></div>
+      <div class="key" onclick="keyPress('sms','2')"><div class="key-num">2</div><div class="key-letters">ABC</div></div>
+      <div class="key" onclick="keyPress('sms','3')"><div class="key-num">3</div><div class="key-letters">DEF</div></div>
+      <div class="key" onclick="keyPress('sms','4')"><div class="key-num">4</div><div class="key-letters">GHI</div></div>
+      <div class="key" onclick="keyPress('sms','5')"><div class="key-num">5</div><div class="key-letters">JKL</div></div>
+      <div class="key" onclick="keyPress('sms','6')"><div class="key-num">6</div><div class="key-letters">MNO</div></div>
+      <div class="key" onclick="keyPress('sms','7')"><div class="key-num">7</div><div class="key-letters">PQRS</div></div>
+      <div class="key" onclick="keyPress('sms','8')"><div class="key-num">8</div><div class="key-letters">TUV</div></div>
+      <div class="key" onclick="keyPress('sms','9')"><div class="key-num">9</div><div class="key-letters">WXYZ</div></div>
+      <div class="key backspace" onclick="keyPress('sms','⌫')"><div class="key-num">⌫</div></div>
+      <div class="key" onclick="keyPress('sms','0')"><div class="key-num">0</div><div class="key-letters">+</div></div>
+      <div class="key" style="background:transparent;border-color:transparent;"></div>
+    </div>
+
+    <button class="auth-btn" id="verify-btn" disabled onclick="show('ob-pin')">Verify Code</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       ONBOARDING: SET PIN
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-ob-pin" style="display:none;">
+    <div class="ob-header">
+      <div class="ob-step">Step 2 of 2 · Security</div>
+      <div class="ob-title">Create a 4-digit PIN</div>
+      <div class="ob-sub">You'll use this to unlock Laah.</div>
+    </div>
+
+    <div class="ob-laah">
+      <div class="laah-msg">
+        <div class="laah-tag">Laah</div>
+        <div class="laah-txt">Choose something easy to remember — like your birthday month and year.</div>
+      </div>
+    </div>
+
+    <div class="pin-dots">
+      <div class="pin-dot" id="pin-0"></div>
+      <div class="pin-dot" id="pin-1"></div>
+      <div class="pin-dot" id="pin-2"></div>
+      <div class="pin-dot" id="pin-3"></div>
+    </div>
+
+    <div class="keypad">
+      <div class="key" onclick="keyPress('pin','1')"><div class="key-num">1</div><div class="key-letters">&nbsp;</div></div>
+      <div class="key" onclick="keyPress('pin','2')"><div class="key-num">2</div><div class="key-letters">ABC</div></div>
+      <div class="key" onclick="keyPress('pin','3')"><div class="key-num">3</div><div class="key-letters">DEF</div></div>
+      <div class="key" onclick="keyPress('pin','4')"><div class="key-num">4</div><div class="key-letters">GHI</div></div>
+      <div class="key" onclick="keyPress('pin','5')"><div class="key-num">5</div><div class="key-letters">JKL</div></div>
+      <div class="key" onclick="keyPress('pin','6')"><div class="key-num">6</div><div class="key-letters">MNO</div></div>
+      <div class="key" onclick="keyPress('pin','7')"><div class="key-num">7</div><div class="key-letters">PQRS</div></div>
+      <div class="key" onclick="keyPress('pin','8')"><div class="key-num">8</div><div class="key-letters">TUV</div></div>
+      <div class="key" onclick="keyPress('pin','9')"><div class="key-num">9</div><div class="key-letters">WXYZ</div></div>
+      <div class="key backspace" onclick="keyPress('pin','⌫')"><div class="key-num">⌫</div></div>
+      <div class="key" onclick="keyPress('pin','0')"><div class="key-num">0</div></div>
+      <div class="key" style="background:transparent;border-color:transparent;"></div>
+    </div>
+
+    <button class="auth-btn" id="pin-btn" disabled onclick="show('home')">Save PIN &amp; Continue</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       HOME — no buttons
+  ═══════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════
+       HOME — full chat thread
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-home" style="background:var(--gr-home);">
+
+    <div class="chat-topbar">
+      <div class="chat-topbar-left">
+        <div class="chat-orb-xs"></div>
+        <div class="chat-brand">Laah</div>
+      </div>
+      <div class="chat-badge">● Listening</div>
+    </div>
+
+    <div class="chat-thread" id="home-thread">
+
+      <div class="chat-ts">Monday, March 23 · 9:41 AM</div>
+
+      <!-- Laah: morning greeting -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Good morning, Margaret! Let me pull up your check-in for today.</p>
+        </div>
+      </div>
+
+      <!-- Inline vitals card -->
+      <div class="chat-row-laah" style="max-width:100%;width:100%;">
+        <div class="chat-card" style="max-width:100%;">
+          <div class="chat-card-head">This Morning's Vitals</div>
+          <div class="chat-card-body">
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">❤️</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Blood Pressure</div>
+                <div class="ccard-vital-val">128/82</div>
+              </div>
+              <div class="ccard-badge warn"><div class="ccard-badge-symbol">△</div><div class="ccard-badge-txt">Watch</div></div>
+            </div>
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">🩸</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Blood Sugar</div>
+                <div class="ccard-vital-val">108 <span style="font-size:16px;font-weight:400;color:var(--txt-dim);">mg/dL</span></div>
+              </div>
+              <div class="ccard-badge good"><div class="ccard-badge-symbol">✓</div><div class="ccard-badge-txt">Good</div></div>
+            </div>
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">😴</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Sleep Last Night</div>
+                <div class="ccard-vital-val">6.5 hrs</div>
+              </div>
+              <div class="ccard-badge warn"><div class="ccard-badge-symbol">△</div><div class="ccard-badge-txt">Watch</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laah: BP comment -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Blood pressure is a touch high — probably fine, but drink some water and take it easy this morning.</p>
+        </div>
+      </div>
+
+      <!-- Laah: meds -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Here are your medications for today.</p>
+        </div>
+      </div>
+
+      <!-- Inline meds card -->
+      <div class="chat-row-laah" style="max-width:100%;width:100%;">
+        <div class="chat-card" style="max-width:100%;">
+          <div class="chat-card-head">Today's Medications</div>
+          <div class="chat-card-body">
+            <div class="ccard-med">
+              <div class="ccard-med-icon">💊</div>
+              <div class="ccard-med-info">
+                <div class="ccard-med-name">Metformin 500mg</div>
+                <div class="ccard-med-dose">Morning · with breakfast</div>
+              </div>
+              <div class="ccard-med-check ccard-med-done"><div class="ccard-med-check-sym">✓</div><div class="ccard-med-check-txt">Done</div></div>
+            </div>
+            <div class="ccard-med">
+              <div class="ccard-med-icon">💊</div>
+              <div class="ccard-med-info">
+                <div class="ccard-med-name">Lisinopril 10mg</div>
+                <div class="ccard-med-dose">Morning · with breakfast</div>
+              </div>
+              <div class="ccard-med-check ccard-med-done"><div class="ccard-med-check-sym">✓</div><div class="ccard-med-check-txt">Done</div></div>
+            </div>
+            <div class="ccard-med">
+              <div class="ccard-med-icon">💊</div>
+              <div class="ccard-med-info">
+                <div class="ccard-med-name">Atorvastatin 20mg</div>
+                <div class="ccard-med-dose">Tonight at 7:00 PM</div>
+              </div>
+              <div class="ccard-med-check ccard-med-todo"><div class="ccard-med-check-sym">○</div><div class="ccard-med-check-txt">Later</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laah: water question -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Have you had your morning water yet?</p>
+        </div>
+      </div>
+
+      <!-- User reply -->
+      <div class="chat-row-user">
+        <div class="chat-bubble-user">
+          <p>Yes, just had a big glass.</p>
+        </div>
+      </div>
+
+      <!-- Laah: nice -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Perfect! That'll help with the blood pressure too. Have a wonderful morning, Margaret. 🌿</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Voice panel -->
+    <div class="voice-panel">
+      <div class="voice-panel-label"><div class="vpl-dot"></div>Say…</div>
+      <div class="voice-opt" onclick="show('respond')">
+        <div class="voice-opt-icon">💬</div>
+        <div class="voice-opt-body">
+          <div class="voice-opt-say">Anything on your mind</div>
+          <div class="voice-opt-phrase">"Hey Laah, how am I doing today?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bnav">
+      <div class="bnav-item active"><span class="bnav-icon">🌿</span><span class="bnav-lbl">HOME</span></div>
+      <div class="bnav-item" onclick="show('health')"><span class="bnav-icon">🩺</span><span class="bnav-lbl">HEALTH</span></div>
+      <div class="bnav-item" onclick="show('meals')"><span class="bnav-icon">🥗</span><span class="bnav-lbl">MEALS</span></div>
+      <div class="bnav-item" onclick="show('settings')"><span class="bnav-icon">⚙️</span><span class="bnav-lbl">SETTINGS</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       LISTENING — no buttons
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-listen" style="display:none;">
+    <div class="home-top">
+      <div class="home-brand">Laah</div>
+      <div class="home-badge" style="background:rgba(232,168,124,.12);border-color:rgba(232,168,124,.3);color:var(--amber);">● Hearing you…</div>
+    </div>
+    <div class="listen-body">
+      <div class="listen-orb">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:24px;">👂</div>
+      </div>
+      <div class="wave-bars">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+      <div class="listen-lbl">Listening…</div>
+    </div>
+    <div class="user-bubble">
+      <div class="user-speech">
+        <div class="user-speech-tag">Margaret</div>
+        <div class="user-speech-txt">What time do I take my evening pill<span class="cursor-blink"></span></div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="bnav-item active"><span class="bnav-icon">🌿</span><span class="bnav-lbl">HOME</span></div>
+      <div class="bnav-item" onclick="show('health')"><span class="bnav-icon">🩺</span><span class="bnav-lbl">HEALTH</span></div>
+      <div class="bnav-item" onclick="show('meal-result')"><span class="bnav-icon">🥗</span><span class="bnav-lbl">MEALS</span></div>
+      <div class="bnav-item" onclick="show('settings')"><span class="bnav-icon">⚙️</span><span class="bnav-lbl">SETTINGS</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       RESPONDING — no buttons
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-respond" style="display:none;">
+    <div class="respond-top">
+      <div class="respond-orb">
+        <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;">🌿</div>
+      </div>
+      <div class="respond-bars">
+        <div class="rbar"></div><div class="rbar"></div><div class="rbar"></div>
+        <div class="rbar"></div><div class="rbar"></div>
+      </div>
+      <div class="respond-lbl">Laah is speaking…</div>
+    </div>
+    <div class="conv-scroll">
+      <div class="msg-user">
+        <div class="msg-user-txt">What time do I take my evening pill?</div>
+      </div>
+      <div class="msg-laah">
+        <div class="msg-laah-tag">Laah</div>
+        <div class="msg-laah-txt">Your evening pill — Atorvastatin 20mg — is at 7:00 PM, after dinner. Would you like a reminder?</div>
+      </div>
+    </div>
+    <!-- Voice options replace any confirm/cancel buttons -->
+    <div class="voice-panel">
+      <div class="voice-panel-label"><div class="vpl-dot"></div>Say…</div>
+      <div class="voice-opt" onclick="show('home')">
+        <div class="voice-opt-icon">✅</div>
+        <div class="voice-opt-body">
+          <div class="voice-opt-say">To confirm</div>
+          <div class="voice-opt-phrase">"Yes, set a reminder"</div>
+        </div>
+      </div>
+      <div class="voice-opt" onclick="show('home')">
+        <div class="voice-opt-icon">🚫</div>
+        <div class="voice-opt-body">
+          <div class="voice-opt-say">To skip</div>
+          <div class="voice-opt-phrase">"No thanks, I'll remember"</div>
+        </div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="bnav-item active"><span class="bnav-icon">🌿</span><span class="bnav-lbl">HOME</span></div>
+      <div class="bnav-item" onclick="show('health')"><span class="bnav-icon">🩺</span><span class="bnav-lbl">HEALTH</span></div>
+      <div class="bnav-item" onclick="show('meal-result')"><span class="bnav-icon">🥗</span><span class="bnav-lbl">MEALS</span></div>
+      <div class="bnav-item" onclick="show('settings')"><span class="bnav-icon">⚙️</span><span class="bnav-lbl">SETTINGS</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       LOCK SCREEN — voice replaces buttons
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-notif" style="display:none;">
+    <div class="lock-blur"></div>
+    <div class="lock-time-area">
+      <div class="lock-time">7:00</div>
+      <div class="lock-date">Monday, March 23</div>
+    </div>
+    <div class="notif-card">
+      <div class="notif-top">
+        <div class="notif-orb-sm"></div>
+        <div>
+          <div class="notif-from">Laah · Health Companion</div>
+          <div class="notif-when">Now</div>
+        </div>
+      </div>
+      <div class="notif-body">
+        <div class="notif-txt">Good morning, Margaret. Time for your morning medications — Metformin 500mg and Lisinopril 10mg.</div>
+      </div>
+    </div>
+    <!-- Voice responses — no tap buttons -->
+    <div class="notif-voice">
+      <div class="notif-voice-label">
+        <div class="vpl-dot"></div>Say to respond…
+      </div>
+      <div class="notif-voice-opt" onclick="show('home')">
+        <div class="nvo-icon">✅</div>
+        <div class="nvo-txt">"Yes, I took them"</div>
+      </div>
+      <div class="notif-voice-opt" onclick="show('home')">
+        <div class="nvo-icon">⏰</div>
+        <div class="nvo-txt">"Remind me in 30 minutes"</div>
+      </div>
+      <div class="notif-voice-opt" onclick="show('home')">
+        <div class="nvo-icon">❓</div>
+        <div class="nvo-txt">"Tell me about these pills"</div>
+      </div>
+    </div>
+    <div style="flex:1;"></div>
+    <div style="text-align:center;padding:14px;flex-shrink:0;">
+      <div style="font-size:18px;color:var(--lock-hint);font-weight:500;">Swipe up to unlock</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       HEALTH — full chat thread
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-health" style="display:none;background:var(--gr-health);">
+
+    <div class="chat-topbar">
+      <div class="chat-topbar-left">
+        <div class="chat-orb-xs"></div>
+        <div class="chat-brand">Health</div>
+      </div>
+      <div class="chat-badge">● Listening</div>
+    </div>
+
+    <div class="chat-thread">
+
+      <div class="chat-ts">Monday, March 23 · 9:41 AM</div>
+
+      <!-- Laah opens -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Here's your full health report for this morning, Margaret.</p>
+        </div>
+      </div>
+
+      <!-- All 4 vitals card -->
+      <div class="chat-row-laah" style="max-width:100%;width:100%;">
+        <div class="chat-card" style="max-width:100%;">
+          <div class="chat-card-head">Morning Health Report</div>
+          <div class="chat-card-body">
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">❤️</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Blood Pressure</div>
+                <div class="ccard-vital-val">128/82 <span style="font-size:16px;color:var(--txt-dim);font-weight:400;">mmHg</span></div>
+              </div>
+              <div class="ccard-badge warn"><div class="ccard-badge-symbol">△</div><div class="ccard-badge-txt">Watch</div></div>
+            </div>
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">💗</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Heart Rate</div>
+                <div class="ccard-vital-val">72 <span style="font-size:16px;color:var(--txt-dim);font-weight:400;">bpm</span></div>
+              </div>
+              <div class="ccard-badge good"><div class="ccard-badge-symbol">✓</div><div class="ccard-badge-txt">Good</div></div>
+            </div>
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">🩸</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Blood Sugar</div>
+                <div class="ccard-vital-val">108 <span style="font-size:16px;color:var(--txt-dim);font-weight:400;">mg/dL fasting</span></div>
+              </div>
+              <div class="ccard-badge good"><div class="ccard-badge-symbol">✓</div><div class="ccard-badge-txt">Good</div></div>
+            </div>
+            <div class="ccard-vital">
+              <div class="ccard-vital-icon">😴</div>
+              <div class="ccard-vital-info">
+                <div class="ccard-vital-lbl">Sleep</div>
+                <div class="ccard-vital-val">6.5 hrs <span style="font-size:16px;color:var(--txt-dim);font-weight:400;">last night</span></div>
+              </div>
+              <div class="ccard-badge warn"><div class="ccard-badge-symbol">△</div><div class="ccard-badge-txt">Watch</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laah: BP comment -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Blood pressure is slightly elevated — heart rate and blood sugar look good though. Sleep was a little short.</p>
+        </div>
+      </div>
+
+      <!-- User asks -->
+      <div class="chat-row-user">
+        <div class="chat-bubble-user">
+          <p>Why is my blood pressure a little high?</p>
+        </div>
+      </div>
+
+      <!-- Laah explains -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>It could be from less sleep, stress, or salty food yesterday. Try drinking an extra glass of water and resting a bit this morning. I'll track it again tonight.</p>
+        </div>
+      </div>
+
+      <!-- User follow-up -->
+      <div class="chat-row-user">
+        <div class="chat-bubble-user">
+          <p>Should I call my doctor?</p>
+        </div>
+      </div>
+
+      <!-- Laah: no need yet -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Not yet — 128/82 is "elevated" but not in the danger zone. If it stays above 140/90 for a few days in a row, I'll remind you to check in with Dr. Kim.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="voice-panel">
+      <div class="voice-panel-label"><div class="vpl-dot"></div>Ask Laah…</div>
+      <div class="voice-opt" onclick="show('respond')">
+        <div class="voice-opt-icon">💬</div>
+        <div class="voice-opt-body">
+          <div class="voice-opt-say">Example</div>
+          <div class="voice-opt-phrase">"Hey Laah, what foods should I avoid?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bnav">
+      <div class="bnav-item" onclick="show('home')"><span class="bnav-icon">🌿</span><span class="bnav-lbl">HOME</span></div>
+      <div class="bnav-item active"><span class="bnav-icon">🩺</span><span class="bnav-lbl">HEALTH</span></div>
+      <div class="bnav-item" onclick="show('meals')"><span class="bnav-icon">🥗</span><span class="bnav-lbl">MEALS</span></div>
+      <div class="bnav-item" onclick="show('settings')"><span class="bnav-icon">⚙️</span><span class="bnav-lbl">SETTINGS</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MEAL CAMERA — no shutter button
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-meal-photo" style="display:none;">
+    <div class="cam-view" id="cam-view">
+      <div class="cam-hint">
+        <div class="cam-hint-txt" id="cam-hint-txt">Point at your meal — say <strong style="color:#8ECFC9">"Take it"</strong> or I'll snap it automatically.</div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+        <div style="font-size:80px;opacity:.1;">🍽️</div>
+      </div>
+      <div class="cam-guide tl" id="cg-tl"></div>
+      <div class="cam-guide tr" id="cg-tr"></div>
+      <div class="cam-guide bl" id="cg-bl"></div>
+      <div class="cam-guide br" id="cg-br"></div>
+      <div class="cam-scan"></div>
+      <!-- Countdown ring -->
+      <div class="countdown-wrap" id="cnt-wrap">
+        <div class="cnt-ring" id="cnt-ring">
+          <svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="40"/></svg>
+          <span class="cnt-num" id="cnt-num">3</span>
+        </div>
+        <div class="cnt-lbl">Auto-snapping…</div>
+      </div>
+      <div class="cam-flash" id="cam-flash"></div>
+      <!-- Voice cue only — no shutter button -->
+      <div class="cam-voice-bar">
+        <div class="cam-voice-pill"><div class="cam-vdot"></div>Say "Take it" to snap</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MEALS — full chat thread
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-meals" style="display:none;background:var(--gr-meal);">
+
+    <div class="chat-topbar">
+      <div class="chat-topbar-left">
+        <div class="chat-orb-xs" style="background:radial-gradient(circle at 35% 35%,#A8F5C2,#64C483 50%,#2A7A4F);"></div>
+        <div class="chat-brand">Meals</div>
+      </div>
+      <div class="chat-badge">● Listening</div>
+    </div>
+
+    <div class="chat-thread">
+
+      <!-- Breakfast -->
+      <div class="chat-ts">Monday, March 23 · 7:48 AM</div>
+
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Breakfast logged! Here's the breakdown.</p>
+        </div>
+      </div>
+
+      <div class="chat-row-laah" style="max-width:100%;width:100%;">
+        <div class="chat-card" style="max-width:100%;">
+          <div class="chat-card-head">Breakfast · 7:48 AM</div>
+          <div class="chat-card-body">
+            <div style="font-size:20px;color:var(--txt-primary);font-weight:600;margin-bottom:8px;line-height:1.4;">Oatmeal with berries</div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Calories</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:38%;background:linear-gradient(90deg,#8ECFC9,#5BBFB3);"></div></div>
+              <div class="ccard-nutr-val">320</div>
+            </div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Protein</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:55%;background:linear-gradient(90deg,#B8A4E8,#9078C8);"></div></div>
+              <div class="ccard-nutr-val">14g</div>
+            </div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Sodium</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:18%;background:linear-gradient(90deg,#E07070,#C04040);"></div></div>
+              <div class="ccard-nutr-val">210mg</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Great start! Nice and low on sodium — that'll help your blood pressure this morning.</p>
+        </div>
+      </div>
+
+      <!-- Lunch -->
+      <div class="chat-ts">12:34 PM</div>
+
+      <!-- User sends photo -->
+      <div class="chat-row-user">
+        <div class="chat-photo-bubble">
+          <div class="chat-photo-inner">🍱</div>
+          <div class="chat-photo-lbl">Lunch photo</div>
+        </div>
+      </div>
+
+      <!-- Laah analyzing -->
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah" style="background:var(--bg-card);border-color:var(--border-card);">
+          <div class="chat-typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>
+        </div>
+      </div>
+
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Got it — looks like a brown rice bowl with miso soup. Analyzing now.</p>
+        </div>
+      </div>
+
+      <div class="chat-row-laah" style="max-width:100%;width:100%;">
+        <div class="chat-card" style="max-width:100%;">
+          <div class="chat-card-head">Lunch · 12:34 PM</div>
+          <div class="chat-card-body">
+            <div style="font-size:20px;color:var(--txt-primary);font-weight:600;margin-bottom:8px;line-height:1.4;">Brown rice bowl + miso soup</div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Calories</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:68%;background:linear-gradient(90deg,#8ECFC9,#5BBFB3);"></div></div>
+              <div class="ccard-nutr-val">580</div>
+            </div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Protein</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:30%;background:linear-gradient(90deg,#B8A4E8,#9078C8);"></div></div>
+              <div class="ccard-nutr-val">22g</div>
+            </div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Carbs</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:72%;background:linear-gradient(90deg,#E8A87C,#D4875A);"></div></div>
+              <div class="ccard-nutr-val">86g</div>
+            </div>
+            <div class="ccard-nutr">
+              <div class="ccard-nutr-lbl">Sodium</div>
+              <div class="ccard-nutr-bg"><div class="ccard-nutr-fill" style="width:82%;background:linear-gradient(90deg,#E07070,#C04040);"></div></div>
+              <div class="ccard-nutr-val">1,240mg</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Looks pretty balanced! Protein is a bit low today. For dinner, try adding grilled chicken, salmon, or tofu to make up for it.</p>
+        </div>
+      </div>
+
+      <div class="chat-row-laah">
+        <div class="chat-sender">Laah</div>
+        <div class="chat-bubble-laah">
+          <p>Also — sodium is high at lunch. Easy on the salty snacks this afternoon. 🙂</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="voice-panel">
+      <div class="voice-panel-label"><div class="vpl-dot"></div>Say to Laah…</div>
+      <div class="voice-opt" onclick="show('meal-photo')">
+        <div class="voice-opt-icon">📸</div>
+        <div class="voice-opt-body">
+          <div class="voice-opt-say">To log dinner</div>
+          <div class="voice-opt-phrase">"Hey Laah, log my dinner"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bnav">
+      <div class="bnav-item" onclick="show('home')"><span class="bnav-icon">🌿</span><span class="bnav-lbl">HOME</span></div>
+      <div class="bnav-item" onclick="show('health')"><span class="bnav-icon">🩺</span><span class="bnav-lbl">HEALTH</span></div>
+      <div class="bnav-item active"><span class="bnav-icon">🥗</span><span class="bnav-lbl">MEALS</span></div>
+      <div class="bnav-item" onclick="show('settings')"><span class="bnav-icon">⚙️</span><span class="bnav-lbl">SETTINGS</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SETTINGS — controls kept
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="s-settings" style="display:none;">
+    <div class="set-header">
+      <div class="set-title">Settings</div>
+      <div class="set-sub">Customize your Laah</div>
+    </div>
+    <div class="set-scroll">
+      <div class="set-section">Accessibility</div>
+      <div class="set-row hi">
+        <div class="set-icon">👁</div>
+        <div class="set-info"><div class="set-title-row">Text-Only Mode</div><div class="set-desc">No audio — screen text only (hearing impaired)</div></div>
+        <div class="toggle" id="toggle-text" onclick="toggleSetting('text')"><div class="toggle-thumb"></div></div>
+      </div>
+      <div class="set-row">
+        <div class="set-icon">🔊</div>
+        <div class="set-info"><div class="set-title-row">Laah's Voice</div><div class="set-desc">Speed and volume</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="set-row">
+        <div class="set-icon">🔡</div>
+        <div class="set-info"><div class="set-title-row">Text Size</div><div class="set-desc">Current: Large</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="set-section">Appearance</div>
+      <div class="set-row">
+        <div class="set-icon">🌓</div>
+        <div class="set-info"><div class="set-title-row">Appearance</div><div class="set-desc">System default</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="set-section">Reminders</div>
+      <div class="set-row">
+        <div class="set-icon">💊</div>
+        <div class="set-info"><div class="set-title-row">Medication Reminders</div><div class="set-desc">Manage dosage times</div></div>
+        <div class="toggle on" id="toggle-meds" onclick="toggleSetting('meds')"><div class="toggle-thumb"></div></div>
+      </div>
+      <div class="set-row">
+        <div class="set-icon">🌙</div>
+        <div class="set-info"><div class="set-title-row">Sleep Mode</div><div class="set-desc">No alerts 10 PM – 7 AM</div></div>
+        <div class="toggle on" id="toggle-sleep" onclick="toggleSetting('sleep')"><div class="toggle-thumb"></div></div>
+      </div>
+      <div class="set-section">Account</div>
+      <div class="set-row">
+        <div class="set-icon">👨‍👩‍👧</div>
+        <div class="set-info"><div class="set-title-row">Family Sharing</div><div class="set-desc">Share health updates with family</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="set-row">
+        <div class="set-icon">🔒</div>
+        <div class="set-info"><div class="set-title-row">Privacy &amp; Security</div><div class="set-desc">PIN, data management</div></div>
+        <div class="chevron">›</div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="bnav-item" onclick="show('home')"><span class="bnav-icon">🌿</span><span class="bnav-lbl">HOME</span></div>
+      <div class="bnav-item" onclick="show('health')"><span class="bnav-icon">🩺</span><span class="bnav-lbl">HEALTH</span></div>
+      <div class="bnav-item" onclick="show('meals')"><span class="bnav-icon">🥗</span><span class="bnav-lbl">MEALS</span></div>
+      <div class="bnav-item active"><span class="bnav-icon">⚙️</span><span class="bnav-lbl">SETTINGS</span></div>
+    </div>
+  </div>
+</div><!-- /phone -->
+
+<script>
+/* ═══════════════════════════════════
+   KEYPAD LOGIC
+═══════════════════════════════════ */
+let phoneDigits='', smsDigits='', pinDigits='';
+
+function keyPress(mode, key){
+  if(mode==='phone'){
+    if(key==='⌫') phoneDigits=phoneDigits.slice(0,-1);
+    else if(phoneDigits.length<10) phoneDigits+=key;
+    renderPhone();
+  } else if(mode==='sms'){
+    if(key==='⌫') smsDigits=smsDigits.slice(0,-1);
+    else if(smsDigits.length<4) smsDigits+=key;
+    renderSms();
+  } else if(mode==='pin'){
+    if(key==='⌫') pinDigits=pinDigits.slice(0,-1);
+    else if(pinDigits.length<4) pinDigits+=key;
+    renderPin();
+  }
+}
+
+function renderPhone(){
+  const d=phoneDigits;
+  let fmt='';
+  if(d.length>0) fmt='('+d.slice(0,3);
+  if(d.length>3) fmt+=') '+d.slice(3,6);
+  if(d.length>6) fmt+='-'+d.slice(6,10);
+  document.getElementById('phone-digits').textContent=fmt||'';
+}
+
+function renderSms(){
+  for(let i=0;i<4;i++){
+    const el=document.getElementById('sms-'+i);
+    el.textContent=smsDigits[i]||'';
+    el.className='sms-box'+(i===smsDigits.length?' active':smsDigits[i]?' filled':'');
+  }
+  const btn=document.getElementById('verify-btn');
+  if(btn) btn.disabled=smsDigits.length<4;
+  // auto-advance when 4 digits entered
+  if(smsDigits.length===4) setTimeout(()=>show('ob-pin'),400);
+}
+
+function renderPin(){
+  for(let i=0;i<4;i++){
+    const el=document.getElementById('pin-'+i);
+    if(el) el.className='pin-dot'+(pinDigits.length>i?' filled':'');
+  }
+  const btn=document.getElementById('pin-btn');
+  if(btn) btn.disabled=pinDigits.length<4;
+}
+
+/* ═══════════════════════════════════
+   CAMERA
+═══════════════════════════════════ */
+let camTimer=null, cntTimer=null, camAlive=false;
+
+function startCam(){
+  camAlive=true; resetCam();
+  camTimer=setTimeout(()=>{
+    if(!camAlive) return;
+    ['cg-tl','cg-tr','cg-bl','cg-br'].forEach(id=>document.getElementById(id).classList.add('det'));
+    document.getElementById('cam-hint-txt').innerHTML='Food detected! Say <strong style="color:#8ECFC9">"Take it"</strong> — or auto-snapping in 3 seconds.';
+    startCnt();
+  },2500);
+}
+
+function startCnt(){
+  const ring=document.getElementById('cnt-ring');
+  const numEl=document.getElementById('cnt-num');
+  const wrap=document.getElementById('cnt-wrap');
+  wrap.classList.add('vis'); let n=3; numEl.textContent=n;
+  setTimeout(()=>ring.classList.add('go'),50);
+  cntTimer=setInterval(()=>{
+    n--;
+    if(n>0){ numEl.style.animation='none'; void numEl.offsetWidth; numEl.style.animation='countPop .35s ease'; numEl.textContent=n; }
+    else { clearInterval(cntTimer); doSnap(); }
+  },1000);
+}
+
+function doSnap(){
+  if(!camAlive) return;
+  stopCam();
+  const flash=document.getElementById('cam-flash');
+  flash.classList.add('flash');
+  setTimeout(()=>{ flash.classList.remove('flash'); show('meals'); },480);
+}
+
+function stopCam(){
+  camAlive=false; clearTimeout(camTimer); clearInterval(cntTimer);
+}
+
+function resetCam(){
+  ['cg-tl','cg-tr','cg-bl','cg-br'].forEach(id=>{ const e=document.getElementById(id); if(e)e.classList.remove('det'); });
+  const w=document.getElementById('cnt-wrap'); if(w)w.classList.remove('vis');
+  const r=document.getElementById('cnt-ring'); if(r)r.classList.remove('go');
+  const n=document.getElementById('cnt-num'); if(n)n.textContent='3';
+  const h=document.getElementById('cam-hint-txt');
+  if(h)h.innerHTML='Point at your meal — say <strong style="color:#8ECFC9">"Take it"</strong> or I\'ll snap it automatically.';
+}
+
+/* ═══════════════════════════════════
+   SCREEN NAV
+═══════════════════════════════════ */
+function show(id){
+  if(id!=='meal-photo') stopCam();
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
+  document.getElementById('s-'+id).style.display='flex';
+  document.getElementById('status-bar').style.display=(id==='notif')?'none':'flex';
+  if(id==='meal-photo') startCam();
+  // active tab
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const navMap={home:0,listen:0,respond:0,health:1,meals:2,'meal-photo':2,settings:3};
+  // bnav
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  const ni=navMap[id]; if(ni!==undefined){ const items=document.querySelectorAll('.bnav-item'); if(items[ni])items[ni].classList.add('active'); }
+  // scroll chat threads to bottom
+  const thread=document.querySelector('#s-'+id+' .chat-thread');
+  if(thread) setTimeout(()=>thread.scrollTop=thread.scrollHeight,50);
+}
+
+/* ═══════════════════════════════════
+   SETTINGS TOGGLES
+═══════════════════════════════════ */
+function toggleSetting(id){
+  const el=document.getElementById('toggle-'+id); if(el)el.classList.toggle('on');
+}
+
+/* ═══════════════════════════════════
+   THEME
+═══════════════════════════════════ */
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById({system:'btn-sys',light:'btn-lgt',dark:'btn-drk'}[t]).classList.add('active');
+  localStorage.setItem('laah-theme',t);
+}
+
+/* ── Init ── */
+setTheme(localStorage.getItem('laah-theme')||'system');
+show('ob-phone');
+</script>
+</body>
+</html>
